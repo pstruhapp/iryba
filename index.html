@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>iRyba – Pstruh a Kapr</title>
+<meta name="description" content="Dvě bezplatné aplikace pro rybáře: Pstruh pro pstruhové revíry a Kapr pro mimopstruhové. Nejbližší revíry, podmínky lovu, průtoky a zarybnění.">
+<meta name="theme-color" content="#0B3B3A">
+<link rel="icon" href="favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Atkinson+Hyperlegible:wght@400;700&display=swap">
+<style>
+:root{
+  --bg:#EEF2EE; --surface:#FFFFFF; --sunk:#E3EAE5; --ink:#12201C; --muted:#56675F; --line:#CFDAD3;
+  --p:#0E6B63; --p-deep:#0B3B3A; --p-soft:#D6ECE8;
+  --k:#6B5A12; --k-deep:#2E2A10; --k-soft:#F1E8C8;
+  --f-display:"Barlow Condensed","Arial Narrow",system-ui,sans-serif;
+  --f-body:"Atkinson Hyperlegible",system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#0C1412; --surface:#14201D; --sunk:#1B2A26; --ink:#E6EEEA; --muted:#9AABA3; --line:#2A3B36;
+  --p:#4DB6AA; --p-deep:#0B3B3A; --p-soft:#173733; --k:#D3B84E; --k-deep:#2E2A10; --k-soft:#2F2A14; } }
+:root[data-theme="dark"]{ --bg:#0C1412; --surface:#14201D; --sunk:#1B2A26; --ink:#E6EEEA; --muted:#9AABA3; --line:#2A3B36;
+  --p:#4DB6AA; --p-deep:#0B3B3A; --p-soft:#173733; --k:#D3B84E; --k-deep:#2E2A10; --k-soft:#2F2A14; }
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.5}
+a{color:inherit}
+.wrap{max-width:760px;margin:0 auto;padding:0 16px 48px}
+header{padding:40px 0 20px;text-align:center}
+.brand{font-family:var(--f-display);font-weight:800;font-size:56px;line-height:.9;letter-spacing:.5px;margin:0}
+.brand span{color:var(--p)}
+.lead{margin:12px auto 0;max-width:30em;color:var(--muted);font-size:17px}
+.apps{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-top:12px}
+.app{position:relative;display:flex;flex-direction:column;gap:12px;padding:20px;border-radius:20px;color:#fff;text-decoration:none;overflow:hidden;min-height:250px;transition:transform .15s ease}
+.app:hover{transform:translateY(-2px)}
+.app:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+.app.p{background:linear-gradient(160deg,#0E6B63,#0B3B3A)}
+.app.k{background:linear-gradient(160deg,#6B5A12,#2E2A10)}
+.app img{width:76px;height:76px;border-radius:18px;box-shadow:0 4px 14px rgba(0,0,0,.25)}
+.app h2{margin:0;font-family:var(--f-display);font-weight:800;font-size:40px;line-height:1}
+.app p{margin:0;font-size:15px;opacity:.92}
+.app .go{margin-top:auto;display:inline-flex;align-items:center;gap:8px;align-self:flex-start;background:#fff;color:#12201C;font-weight:700;border-radius:999px;padding:10px 18px;font-size:16px}
+.app .url{font-size:13px;opacity:.8;font-family:ui-monospace,monospace}
+section.box{margin-top:28px;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:20px}
+h3{margin:0 0 4px;font-family:var(--f-display);font-weight:800;font-size:30px;line-height:1.05}
+.sub{margin:0 0 14px;color:var(--muted);font-size:15px}
+.tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;background:var(--sunk);padding:5px;border-radius:14px}
+.tabs button{font:inherit;font-weight:700;font-size:15px;border:0;border-radius:10px;padding:10px 4px;background:transparent;color:var(--muted);cursor:pointer}
+.tabs button[aria-selected=true]{background:var(--surface);color:var(--ink);box-shadow:0 1px 4px rgba(0,0,0,.12)}
+.pane{padding:16px 2px 0}
+.pane[hidden]{display:none}
+.pane ol{margin:0;padding-left:22px;display:grid;gap:8px}
+.pane li::marker{font-weight:700;color:var(--p)}
+.pane .note{margin:12px 0 0;font-size:14px;color:var(--muted)}
+kbd{font-family:inherit;font-weight:700;background:var(--sunk);border:1px solid var(--line);border-bottom-width:2px;border-radius:6px;padding:0 6px;white-space:nowrap}
+.dl{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.dlc{display:flex;align-items:center;gap:14px;padding:12px;border:1px solid var(--line);border-radius:14px;background:var(--bg)}
+.dlc img{width:64px;height:64px;border-radius:14px}
+.dlc b{display:block;font-size:17px}
+.dlc a{display:inline-block;margin-top:4px;font-weight:700;color:var(--p);font-size:15px}
+.dlc.k a{color:var(--k)}
+.small{font-size:13px;color:var(--muted);margin:12px 0 0}
+footer{margin-top:32px;text-align:center;color:var(--muted);font-size:14px}
+footer a{color:var(--p);font-weight:700}
+@media (max-width:420px){ .brand{font-size:46px} .tabs button{font-size:14px} .app{min-height:0} }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1 class="brand">i<span>Ryba</span></h1>
+    <p class="lead">Dvě bezplatné aplikace pro rybáře. Najdou nejbližší revíry a ukážou podmínky lovu, průtoky a zarybnění.</p>
+  </header>
+
+  <div class="apps">
+    <a class="app p" href="https://pstruh.iryba.cz/">
+      <img src="ikony/pstruh-ikona.png" alt="">
+      <h2>Pstruh</h2>
+      <p>Pstruhové revíry: lovné míry, doba lovu, průtoky z ČHMÚ a zarybnění pstruhem.</p>
+      <span class="go">Otevřít Pstruh →</span>
+      <span class="url">pstruh.iryba.cz</span>
+    </a>
+    <a class="app k" href="https://kapr.iryba.cz/">
+      <img src="ikony/kapr-ikona.png" alt="">
+      <h2>Kapr</h2>
+      <p>Mimopstruhové revíry: řeky, nádrže a tůně, podmínky lovu, průtoky a zarybnění kaprem.</p>
+      <span class="go">Otevřít Kapr →</span>
+      <span class="url">kapr.iryba.cz</span>
+    </a>
+  </div>
+
+  <section class="box" id="instalace">
+    <h3>Jak si aplikaci dát na plochu</h3>
+    <p class="sub">Nic se nestahuje z obchodu. Aplikaci otevřeš z ikony jako každou jinou. Postup je stejný pro Pstruh i Kapr.</p>
+    <div class="tabs" role="tablist">
+      <button role="tab" id="t-ios" aria-controls="p-ios" aria-selected="true">iPhone</button>
+      <button role="tab" id="t-and" aria-controls="p-and" aria-selected="false">Android</button>
+      <button role="tab" id="t-mac" aria-controls="p-mac" aria-selected="false">Mac</button>
+      <button role="tab" id="t-win" aria-controls="p-win" aria-selected="false">Windows</button>
+    </div>
+    <div class="pane" id="p-ios" role="tabpanel" aria-labelledby="t-ios">
+      <ol>
+        <li>Otevři aplikaci v <b>Safari</b> (pstruh.iryba.cz nebo kapr.iryba.cz).</li>
+        <li>Klepni na tlačítko <b>Sdílet</b> (čtvereček se šipkou nahoru) dole na liště.</li>
+        <li>Sjeď níž a vyber <b>Přidat na plochu</b>.</li>
+        <li>Potvrď <b>Přidat</b>. Ikona se objeví na ploše.</li>
+      </ol>
+      <p class="note">Na iPadu je tlačítko Sdílet nahoře vpravo vedle adresy.</p>
+    </div>
+    <div class="pane" id="p-and" role="tabpanel" aria-labelledby="t-and" hidden>
+      <ol>
+        <li>Otevři aplikaci v <b>Chrome</b>.</li>
+        <li>Klepni na <b>⋮</b> (tři tečky) vpravo nahoře.</li>
+        <li>Vyber <b>Přidat na plochu</b> nebo <b>Instalovat aplikaci</b>.</li>
+        <li>Potvrď <b>Instalovat</b> (nebo <b>Přidat</b>).</li>
+      </ol>
+      <p class="note">V Samsung Internetu: ☰ dole vpravo → <b>Přidat stránku do</b> → <b>Domovská obrazovka</b>.</p>
+    </div>
+    <div class="pane" id="p-mac" role="tabpanel" aria-labelledby="t-mac" hidden>
+      <ol>
+        <li>V <b>Safari</b> otevři aplikaci a v menu zvol <b>Soubor → Přidat do Docku</b>.</li>
+        <li>Potvrď <b>Přidat</b>. Aplikace bude v Docku i v Launchpadu.</li>
+      </ol>
+      <p class="note">V <b>Chrome</b>: ikona instalace vpravo v adresním řádku, nebo <b>⋮ → Uložit a sdílet → Instalovat stránku jako aplikaci</b>.</p>
+    </div>
+    <div class="pane" id="p-win" role="tabpanel" aria-labelledby="t-win" hidden>
+      <ol>
+        <li>V <b>Edge</b> otevři aplikaci a klepni na <b>⋯</b> vpravo nahoře.</li>
+        <li>Vyber <b>Aplikace → Instalovat tento web jako aplikaci</b>.</li>
+        <li>Potvrď <b>Instalovat</b>. Aplikaci pak najdeš v nabídce Start a můžeš ji připnout na hlavní panel.</li>
+      </ol>
+      <p class="note">V <b>Chrome</b>: ikona instalace vpravo v adresním řádku, nebo <b>⋮ → Uložit a sdílet → Instalovat stránku jako aplikaci</b>.</p>
+    </div>
+  </section>
+
+  <section class="box" id="ikony">
+    <h3>Ikony ke stažení</h3>
+    <p class="sub">Pro zástupce, záložku nebo vlastní plochu. PNG 512 × 512 px.</p>
+    <div class="dl">
+      <div class="dlc"><img src="ikony/pstruh-ikona.png" alt="Ikona Pstruh"><div><b>Pstruh</b><a href="ikony/pstruh-ikona.png" download="pstruh-ikona.png">Stáhnout ikonu</a></div></div>
+      <div class="dlc k"><img src="ikony/kapr-ikona.png" alt="Ikona Kapr"><div><b>Kapr</b><a href="ikony/kapr-ikona.png" download="kapr-ikona.png">Stáhnout ikonu</a></div></div>
+    </div>
+    <p class="small">Na iPhonu se obrázek otevře – podrž na něm prst a zvol <b>Uložit do Fotek</b>.</p>
+  </section>
+
+  <footer>
+    <p>Aplikace jsou zdarma, bez reklam a bez registrace. Data: rybářské svazy, ČHMÚ, Open-Meteo.</p>
+    <p>Napište nám: <a href="mailto:pstruhakapr@gmail.com">pstruhakapr@gmail.com</a><br>Tým Pstruh &amp; Kapr</p>
+  </footer>
+</div>
+<script>
+(function(){
+  var tabs=[].slice.call(document.querySelectorAll('[role=tab]'));
+  function sel(id){ tabs.forEach(function(t){ var on=t.id===id; t.setAttribute('aria-selected',on); document.getElementById(t.getAttribute('aria-controls')).hidden=!on; }); }
+  tabs.forEach(function(t){ t.addEventListener('click',function(){ sel(t.id); }); });
+  var ua=navigator.userAgent||"", tp=navigator.maxTouchPoints||0;
+  if(/Android/i.test(ua)) sel('t-and');
+  else if(/iPhone|iPad|iPod/i.test(ua)||(/Macintosh/.test(ua)&&tp>1)) sel('t-ios');
+  else if(/Macintosh/.test(ua)) sel('t-mac');
+  else if(/Windows/.test(ua)) sel('t-win');
+})();
+</script>
+</body>
+</html>
