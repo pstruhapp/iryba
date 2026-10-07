@@ -84,13 +84,25 @@ h3{font-family:var(--f-display);font-weight:800;font-size:27px;line-height:1.1;m
 
 /* souhlas */
 .agree{margin-top:18px;background:var(--surface);border:2px solid var(--p);border-radius:18px;padding:18px;scroll-margin-top:12px}
-.agree label{display:flex;gap:14px;align-items:flex-start;cursor:pointer;font-size:16.5px;font-weight:700}
-.agree input{width:28px;height:28px;flex:none;margin:0;accent-color:var(--p)}
-.agree .why{margin:10px 0 0 42px;font-size:14px;color:var(--muted)}
 .bonus{margin-top:18px}
 .bonus[hidden]{display:none}
 .ok{font-weight:700;color:var(--p);margin:0 0 6px}
 
+.teaser{display:flex;gap:14px;align-items:center;margin-top:14px;padding:14px 18px;border-radius:18px;background:linear-gradient(120deg,var(--p-soft),var(--k-soft));border:1px solid var(--line);color:var(--ink);text-decoration:none;font-size:15.5px}
+.teaser .gift{font-size:34px;line-height:1}
+.teaser b{font-size:18px}
+.video video{width:100%;max-width:300px;height:auto;aspect-ratio:1/2;border-radius:22px;background:transparent;border:2px solid var(--line);display:block;margin:0 auto;box-shadow:0 6px 18px rgba(0,0,0,.10)}
+.agree h3{margin:0 0 6px}
+.agree .why{margin:0 0 12px;color:var(--muted);font-size:15px}
+.chk{display:flex;gap:12px;align-items:flex-start;cursor:pointer;font-size:16px;font-weight:700}
+.chk input{width:26px;height:26px;flex:none;margin:0;accent-color:var(--p)}
+.bf{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+.bf input{flex:1 1 220px;font:inherit;font-size:16px;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:var(--bg);color:var(--ink)}
+.bf button{font:inherit;font-weight:700;font-size:16px;padding:12px 20px;border:0;border-radius:12px;background:var(--p);color:#fff;cursor:pointer}
+.bf button:disabled{opacity:.6}
+.err{color:#B23A2A;font-weight:700;margin:8px 0 0}
+.fine{font-size:13px;color:var(--muted);margin:10px 0 0}
+.mail{font-size:22px;font-weight:700;margin:4px 0}
 /* instalace */
 .box{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:20px;margin-top:14px}
 .tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;background:var(--sunk);padding:5px;border-radius:14px}
@@ -137,9 +149,57 @@ footer a{font-weight:700}
     </a>
   </div>
 
+  <section class="box" id="instalace">
+    <h3>Jak si aplikaci dát na plochu</h3>
+    <p class="sub">Nic se nestahuje z obchodu. Aplikaci pak otevřeš z ikony jako každou jinou. Postup je stejný pro Pstruh i Kapr.</p>
+    <div class="tabs" role="tablist">
+      <button role="tab" id="t-ios" aria-controls="p-ios" aria-selected="true">iPhone</button>
+      <button role="tab" id="t-and" aria-controls="p-and" aria-selected="false">Android</button>
+      <button role="tab" id="t-mac" aria-controls="p-mac" aria-selected="false">Mac</button>
+      <button role="tab" id="t-win" aria-controls="p-win" aria-selected="false">Windows</button>
+    </div>
+    <div class="pane" id="p-ios" role="tabpanel" aria-labelledby="t-ios">
+      <ol>
+        <li>Otevři aplikaci v <b>Safari</b> (pstruh.iryba.cz nebo kapr.iryba.cz).</li>
+        <li>Klepni na tlačítko <b>Sdílet</b> (čtvereček se šipkou nahoru) dole na liště.</li>
+        <li>Sjeď níž a vyber <b>Přidat na plochu</b>.</li>
+        <li>Potvrď <b>Přidat</b>. Ikona se objeví na ploše.</li>
+      </ol>
+      <p class="note">Na iPadu je tlačítko Sdílet nahoře vpravo vedle adresy.</p>
+    </div>
+    <div class="pane" id="p-and" role="tabpanel" aria-labelledby="t-and" hidden>
+      <ol>
+        <li>Otevři aplikaci v <b>Chrome</b>.</li>
+        <li>Klepni na <b>⋮</b> (tři tečky) vpravo nahoře.</li>
+        <li>Vyber <b>Přidat na plochu</b> nebo <b>Instalovat aplikaci</b>.</li>
+        <li>Potvrď <b>Instalovat</b> (nebo <b>Přidat</b>).</li>
+      </ol>
+      <p class="note">V Samsung Internetu: ☰ dole vpravo → <b>Přidat stránku do</b> → <b>Domovská obrazovka</b>.</p>
+    </div>
+    <div class="pane" id="p-mac" role="tabpanel" aria-labelledby="t-mac" hidden>
+      <ol>
+        <li>V <b>Safari</b> otevři aplikaci a v menu zvol <b>Soubor → Přidat do Docku</b>.</li>
+        <li>Potvrď <b>Přidat</b>. Aplikace bude v Docku i v Launchpadu.</li>
+      </ol>
+      <p class="note">V <b>Chrome</b>: ikona instalace vpravo v adresním řádku, nebo <b>⋮ → Uložit a sdílet → Instalovat stránku jako aplikaci</b>.</p>
+    </div>
+    <div class="pane" id="p-win" role="tabpanel" aria-labelledby="t-win" hidden>
+      <ol>
+        <li>V <b>Edge</b> otevři aplikaci a klepni na <b>⋯</b> vpravo nahoře.</li>
+        <li>Vyber <b>Aplikace → Instalovat tento web jako aplikaci</b>.</li>
+        <li>Potvrď <b>Instalovat</b>. Aplikaci pak najdeš v nabídce Start a můžeš ji připnout na hlavní panel.</li>
+      </ol>
+      <p class="note">V <b>Chrome</b>: ikona instalace vpravo v adresním řádku, nebo <b>⋮ → Uložit a sdílet → Instalovat stránku jako aplikaci</b>.</p>
+    </div>
+  </section>
+  <a class="teaser" href="#bonus-form">
+    <span class="gift">🎁</span>
+    <span><b>Bonus pro tebe</b><br>Ikony Pstruha a Kapra ke stažení a přímý kontakt na nás. Odemkneš je úplně dole na stránce →</span>
+  </a>
+
   <h2 id="video">Video návod</h2>
   <p class="sub">Dvě minuty, které ukážou všechno podstatné – od polohy po zápis úlovku.</p>
-  <div class="video"><video src="navod-pstruh.mp4" poster="nahledy/video-poster.jpg" controls playsinline preload="none" width="390" height="780"></video></div>
+  <div class="video"><video src="navod-pstruh.mp4" poster="nahledy/video-poster.jpg" controls playsinline preload="metadata"></video></div>
 
   <h2 id="umi">Co všechno umí</h2>
   <p class="sub">Obě aplikace fungují stejně. Kde se liší, je to označeno <span class="tag p">Pstruh</span> nebo <span class="tag k">Kapr</span>. Obrázky jdou otevřít ve větší velikosti.</p>
@@ -366,7 +426,8 @@ footer a{font-weight:700}
 
     <h3>Soukromí</h3>
     <ul>
-      <li>Nemáme žádné účty ani registraci a <b>tvoje údaje k nám neposíláme</b>. Nastavení, poslední poloha a e-mail pro „Poslat sobě“ zůstávají jen v tvém zařízení.</li>
+      <li>Aplikace nemají žádné účty ani registraci a <b>tvoje údaje z nich k nám nechodí</b>. Nastavení, poslední poloha a e-mail pro „Poslat sobě“ zůstávají jen v tvém zařízení.</li>
+      <li>Jediné, co k nám může dojít, je e-mail, který sám zadáš u <b>Bonusu</b> na této stránce. Přeposílá ho služba FormSubmit. Použijeme ho jen k odpovědi a občasným novinkám o aplikacích, nikomu ho nedáme a na požádání ho smažeme.</li>
       <li>Aby aplikace fungovala, posílá souřadnice nebo hledaný text přímo poskytovatelům služeb: počasí (Open-Meteo), mapy a hledání míst (OpenStreetMap). „Poslat sobě“ odesílá tvoje vlastní pošta, my e-mail ani fotky nevidíme.</li>
       <li>Návštěvnost měříme anonymně službou GoatCounter, bez cookies a bez sledování konkrétních lidí.</li>
     </ul>
@@ -375,62 +436,25 @@ footer a{font-weight:700}
     <p>Příspěvek je <b>dobrovolný dar</b> na provoz a rozvoj aplikací. Nejde o platbu za službu a nevzniká z něj nárok na žádné plnění. Platby zpracovává Stripe, údaje o kartě k nám nechodí.</p>
 
     <h3>Chyby a připomínky</h3>
-    <p>Našel jsi chybu nebo chybí revír? Napiš na <a href="mailto:pstruhakapr@gmail.com">pstruhakapr@gmail.com</a> – opravíme to co nejdřív. Používáním aplikací souhlasíš s těmito podmínkami. Můžeme je upravit, platí vždy aktuální znění na této stránce.</p>
+    <p>Našel jsi chybu nebo chybí revír? Kontakt na nás najdeš v <a href="#bonus-form">bonusu</a> dole na stránce – opravíme to co nejdřív. Používáním aplikací souhlasíš s těmito podmínkami. Můžeme je upravit, platí vždy aktuální znění na této stránce.</p>
   </div>
 
-  <div class="agree" id="instalace">
-    <label><input type="checkbox" id="ok"> Přečetl/a jsem si to a rozumím: aplikace jsou orientační pomůcka a závazné jsou podmínky v RIS, povolence a Rybářském řádu.</label>
-    <p class="why">Po zaškrtnutí se ti ukáže návod, jak si dát Pstruha a Kapra na plochu telefonu nebo počítače – a jako bonus jejich ikony ke stažení.</p>
+  <div class="agree" id="bonus-form">
+    <h3>🎁 Bonus pro tebe</h3>
+    <p class="why">Zaškrtni, že rozumíš upozornění výše, a zadej svůj e-mail. Odkryješ ikony Pstruha a Kapra ke stažení a e-mail, na který nám můžeš psát nápady a připomínky.</p>
+    <label class="chk"><input type="checkbox" id="ok"> Přečetl/a jsem si to a rozumím: aplikace jsou orientační pomůcka a závazné jsou podmínky v RIS, povolence a Rybářském řádu.</label>
+    <form id="bf" class="bf" novalidate>
+      <input type="email" id="bmail" autocomplete="email" inputmode="email" placeholder="tvuj@email.cz" aria-label="Tvůj e-mail" required>
+      <button type="submit" id="bgo">Odkrýt bonus</button>
+    </form>
+    <p class="err" id="berr" hidden></p>
+    <p class="fine">E-mail pošleme jen nám, Týmu Pstruh &amp; Kapr. Použijeme ho, abychom ti mohli odpovědět a občas dát vědět o novinkách v aplikacích. Nikomu ho nedáme a na požádání ho smažeme.</p>
   </div>
 
   <div class="bonus" id="bonus" hidden>
-    <p class="ok">Díky! Tady je návod i bonus. 🎣</p>
+    <p class="ok">Díky! Tady je tvůj bonus. 🎣</p>
     <section class="box">
-      <h3>Jak si aplikaci dát na plochu</h3>
-      <p class="sub">Nic se nestahuje z obchodu. Aplikaci pak otevřeš z ikony jako každou jinou. Postup je stejný pro Pstruh i Kapr.</p>
-      <div class="tabs" role="tablist">
-        <button role="tab" id="t-ios" aria-controls="p-ios" aria-selected="true">iPhone</button>
-        <button role="tab" id="t-and" aria-controls="p-and" aria-selected="false">Android</button>
-        <button role="tab" id="t-mac" aria-controls="p-mac" aria-selected="false">Mac</button>
-        <button role="tab" id="t-win" aria-controls="p-win" aria-selected="false">Windows</button>
-      </div>
-      <div class="pane" id="p-ios" role="tabpanel" aria-labelledby="t-ios">
-        <ol>
-          <li>Otevři aplikaci v <b>Safari</b> (pstruh.iryba.cz nebo kapr.iryba.cz).</li>
-          <li>Klepni na tlačítko <b>Sdílet</b> (čtvereček se šipkou nahoru) dole na liště.</li>
-          <li>Sjeď níž a vyber <b>Přidat na plochu</b>.</li>
-          <li>Potvrď <b>Přidat</b>. Ikona se objeví na ploše.</li>
-        </ol>
-        <p class="note">Na iPadu je tlačítko Sdílet nahoře vpravo vedle adresy.</p>
-      </div>
-      <div class="pane" id="p-and" role="tabpanel" aria-labelledby="t-and" hidden>
-        <ol>
-          <li>Otevři aplikaci v <b>Chrome</b>.</li>
-          <li>Klepni na <b>⋮</b> (tři tečky) vpravo nahoře.</li>
-          <li>Vyber <b>Přidat na plochu</b> nebo <b>Instalovat aplikaci</b>.</li>
-          <li>Potvrď <b>Instalovat</b> (nebo <b>Přidat</b>).</li>
-        </ol>
-        <p class="note">V Samsung Internetu: ☰ dole vpravo → <b>Přidat stránku do</b> → <b>Domovská obrazovka</b>.</p>
-      </div>
-      <div class="pane" id="p-mac" role="tabpanel" aria-labelledby="t-mac" hidden>
-        <ol>
-          <li>V <b>Safari</b> otevři aplikaci a v menu zvol <b>Soubor → Přidat do Docku</b>.</li>
-          <li>Potvrď <b>Přidat</b>. Aplikace bude v Docku i v Launchpadu.</li>
-        </ol>
-        <p class="note">V <b>Chrome</b>: ikona instalace vpravo v adresním řádku, nebo <b>⋮ → Uložit a sdílet → Instalovat stránku jako aplikaci</b>.</p>
-      </div>
-      <div class="pane" id="p-win" role="tabpanel" aria-labelledby="t-win" hidden>
-        <ol>
-          <li>V <b>Edge</b> otevři aplikaci a klepni na <b>⋯</b> vpravo nahoře.</li>
-          <li>Vyber <b>Aplikace → Instalovat tento web jako aplikaci</b>.</li>
-          <li>Potvrď <b>Instalovat</b>. Aplikaci pak najdeš v nabídce Start a můžeš ji připnout na hlavní panel.</li>
-        </ol>
-        <p class="note">V <b>Chrome</b>: ikona instalace vpravo v adresním řádku, nebo <b>⋮ → Uložit a sdílet → Instalovat stránku jako aplikaci</b>.</p>
-      </div>
-    </section>
-
-    <section class="box">
-      <h3>Bonus: ikony ke stažení</h3>
+      <h3>Ikony ke stažení</h3>
       <p class="sub">Pro zástupce, záložku nebo vlastní plochu. PNG 512 × 512 px.</p>
       <div class="dl">
         <div class="dlc"><img src="ikony/pstruh-ikona.png" alt="Ikona Pstruh"><div><b>Pstruh</b><a href="ikony/pstruh-ikona.png" download="pstruh-ikona.png">Stáhnout ikonu</a></div></div>
@@ -438,19 +462,34 @@ footer a{font-weight:700}
       </div>
       <p class="note">Na iPhonu se obrázek otevře – podrž na něm prst a zvol <b>Uložit do Fotek</b>.</p>
     </section>
+    <section class="box">
+      <h3>Napiš nám</h3>
+      <p>Nápady, připomínky, chybějící revír nebo údaj, který nesedí? Piš na</p>
+      <p class="mail"><a href="mailto:pstruhakapr@gmail.com?subject=Pstruh%20%26%20Kapr%20%E2%80%93%20n%C3%A1pad%20%2F%20p%C5%99ipom%C3%ADnka">pstruhakapr@gmail.com</a></p>
+      <p class="note">Tahle adresa je určená pro nápady a připomínky k aplikacím. Když něco nesedí, napiš prosím, u kterého revíru a jak je to správně (třeba odkaz na povolenku nebo web svazu). Každou zprávu čteme a opravujeme co nejdřív.</p>
+    </section>
   </div>
 
   <footer>
     <p>Pstruh a Kapr jsou zdarma, bez reklam a bez registrace.</p>
-    <p>Napište nám: <a href="mailto:pstruhakapr@gmail.com">pstruhakapr@gmail.com</a><br>Tým Pstruh &amp; Kapr</p>
+    <p>Tým Pstruh &amp; Kapr · <a href="#bonus-form">kontakt v bonusu</a></p>
   </footer>
 </div>
 <script>
 (function(){
-  var ok=document.getElementById('ok'), bonus=document.getElementById('bonus');
-  function show(on){ bonus.hidden=!on; }
-  try{ if(localStorage.getItem('iryba-ok')==='1'){ ok.checked=true; show(true); } }catch(e){}
-  ok.addEventListener('change',function(){ show(ok.checked); try{ localStorage.setItem('iryba-ok',ok.checked?'1':'0'); }catch(e){} if(ok.checked) setTimeout(function(){ bonus.scrollIntoView({behavior:'smooth',block:'start'}); },50); });
+  var ok=document.getElementById('ok'), bonus=document.getElementById('bonus'), bf=document.getElementById('bf'), bm=document.getElementById('bmail'), be=document.getElementById('berr'), bg=document.getElementById('bgo');
+  function show(){ bonus.hidden=false; bf.hidden=true; }
+  try{ if(localStorage.getItem('iryba-bonus')==='1'){ ok.checked=true; show(); } }catch(e){}
+  bf.addEventListener('submit',function(ev){ ev.preventDefault(); be.hidden=true;
+    var m=(bm.value||'').trim();
+    if(!ok.checked){ be.textContent='Nejdřív prosím zaškrtni, že rozumíš upozornění.'; be.hidden=false; return; }
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(m)){ be.textContent='Zkontroluj prosím e-mail.'; be.hidden=false; bm.focus(); return; }
+    bg.disabled=true; bg.textContent='Odesílám…';
+    var done=function(){ try{ localStorage.setItem('iryba-bonus','1'); }catch(e){} show(); setTimeout(function(){ bonus.scrollIntoView({behavior:'smooth',block:'start'}); },60); };
+    try{ fetch('https://formsubmit.co/ajax/pstruhakapr@gmail.com',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},
+      body:JSON.stringify({email:m,_replyto:m,_subject:'iryba.cz – nový kontakt z Bonusu',zprava:'Návštěvník odemkl bonus na iryba.cz a souhlasil s upozorněním.',_template:'table',_captcha:'false'})})
+      .catch(function(){}).then(done); }catch(e){ done(); }
+  });
   var tabs=[].slice.call(document.querySelectorAll('[role=tab]'));
   function sel(id){ tabs.forEach(function(t){ var on=t.id===id; t.setAttribute('aria-selected',on); document.getElementById(t.getAttribute('aria-controls')).hidden=!on; }); }
   tabs.forEach(function(t){ t.addEventListener('click',function(){ sel(t.id); }); });
