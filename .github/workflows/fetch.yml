@@ -1,4 +1,4 @@
-name: fetch-leaflet
+name: fetch-tiles
 on:
   push:
     branches: [staging-leaflet]
@@ -11,8 +11,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: |
-          mkdir -p dl/leaflet/images
-          for f in leaflet.js leaflet.css images/marker-icon.png images/marker-icon-2x.png images/marker-shadow.png images/layers.png; do curl -fsSL "https://unpkg.com/leaflet@1.9.4/dist/$f" -o "dl/leaflet/$f"; done
-          ls -la dl/leaflet
+          mkdir -p dl/tiles
+          while read t; do [ -z "$t" ] && continue; mkdir -p "dl/tiles/$(dirname $t)"
+            curl -fsSL -A "iryba.cz screenshot preview (pstruhakapr@gmail.com)" "https://tile.openstreetmap.org/$t.png" -o "dl/tiles/$t.png" || echo "fail $t"; sleep 0.3; done < dl/tiles-need.txt
+          find dl/tiles -name '*.png' | wc -l
           git config user.name "Claude"; git config user.email "noreply@anthropic.com"
-          git add dl && git commit -m "leaflet dist" && git push
+          git add dl && git commit -m "osm tiles for previews" && git push
