@@ -62,6 +62,7 @@ h3{font-family:var(--f-display);font-weight:800;font-size:27px;line-height:1.1;m
 .feat li::marker{color:var(--p)}
 .feat ul ul{margin-top:6px;gap:4px}
 .feat figure{margin:0}
+.figs{display:grid;gap:14px}
 .feat figure a{display:block;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--sunk)}
 .feat figure img{display:block;width:100%;max-height:440px;object-fit:cover;object-position:top}
 .feat figcaption{font-size:12.5px;color:var(--muted);text-align:center;margin-top:6px}
@@ -198,7 +199,7 @@ footer a{font-weight:700}
   </a>
 
   <h2 id="video">Video návod</h2>
-  <p class="sub">Dvě minuty, které ukážou všechno podstatné – od polohy po zápis úlovku.</p>
+  <p class="sub">Necelé dvě a půl minuty, které ukážou všechno podstatné – od polohy a mapy revírů po zápis úlovku.</p>
   <div class="video"><video src="navod-pstruh.mp4" poster="nahledy/video-poster.jpg" controls playsinline preload="metadata"></video></div>
 
   <h2 id="umi">Co všechno umí</h2>
@@ -229,11 +230,11 @@ footer a{font-weight:700}
       <ul>
         <li>Klepni na <b>Najít 3 nejbližší revíry</b>. Vzdálenost se měří vzdušnou čarou k nejbližšímu místu revíru, ne k jeho středu – takže víš, jak daleko je to opravdu k vodě.</li>
         <li>Každá karta ukazuje název, číslo revíru, místní organizaci (MO) a kilometry. Když revír v RIS nemá mapu, upozorní, že poloha je přibližná.</li>
-        <li>Výsledky jsou očíslované i v mapě. Klepnutím na kartu nebo číslo otevřeš <b>detail revíru</b>.</li>
+        <li>Výsledky jsou očíslované i v <b>mapě</b>, kde vidíš úseky revírů a svou polohu. Klepnutím na kartu nebo číslo otevřeš <b>detail revíru</b>.</li>
         <li>Druhým klepnutím na tlačítko výsledky zase schováš (platí pro všechna velká tlačítka).</li>
       </ul>
     </div>
-    <figure><a href="nahledy/vysledky.jpg" target="_blank"><img src="nahledy/vysledky.jpg" alt="Tři nejbližší revíry" loading="lazy"></a><figcaption>Tři nejbližší revíry</figcaption></figure>
+    <div class="figs"><figure><a href="nahledy/vysledky.jpg" target="_blank"><img src="nahledy/vysledky.jpg" alt="Tři nejbližší revíry" loading="lazy"></a><figcaption>Tři nejbližší revíry</figcaption></figure><figure><a href="nahledy/mapa-reviry.jpg" target="_blank"><img src="nahledy/mapa-reviry.jpg" alt="Mapa se třemi nejbližšími revíry" loading="lazy"></a><figcaption>Revíry v mapě – úseky a čísla výsledků</figcaption></figure></div>
   </section>
 
   <section class="feat" id="f-detail">
@@ -286,12 +287,12 @@ footer a{font-weight:700}
       <ul>
         <li>Přehled vysazení ryb za 42 dní podle zvoleného typu vody (u pstruhových pstruzi, sivení, lipani a hlavatky).</li>
         <li>Každá karta: revír nebo MO, druhy s množstvím a velikostí, datum a štítek, odkud informace je (ověřeno podle svazu).</li>
-        <li>Řazení <b>Nejnovější</b> nebo <b>Nejblíž mně</b> (s kilometry od tebe).</li>
+        <li>Řazení <b>Nejnovější</b> nebo <b>Nejblíž mně</b> (s kilometry od tebe). Zarybněné revíry se očíslují i v <b>mapě</b>, takže hned vidíš, kde se v okolí vysazovalo.</li>
         <li>Pod seznamem jsou <b>zprávy svazů o vysazení</b>, které nejsou rozepsané po revírech, s odkazem na zdroj.</li>
         <li>Přehledy po revírech zveřejňují jen některé svazy (Praha, Jihočeský, Východočeský), u ostatních je k dispozici jen to, co svaz oznámí.</li>
       </ul>
     </div>
-    <figure><a href="nahledy/zarybneni.jpg" target="_blank"><img src="nahledy/zarybneni.jpg" alt="Zarybnění" loading="lazy"></a><figcaption>Zarybněno za 6 týdnů</figcaption></figure>
+    <div class="figs"><figure><a href="nahledy/zarybneni.jpg" target="_blank"><img src="nahledy/zarybneni.jpg" alt="Zarybnění" loading="lazy"></a><figcaption>Zarybněno za 6 týdnů</figcaption></figure><figure><a href="nahledy/mapa-zarybneni.jpg" target="_blank"><img src="nahledy/mapa-zarybneni.jpg" alt="Mapa zarybněných revírů" loading="lazy"></a><figcaption>Kde se vysazovalo – mapa</figcaption></figure></div>
   </section>
 
   <section class="feat" id="f-prutok">
