@@ -1,0 +1,18 @@
+name: fetch-leaflet
+on:
+  push:
+    branches: [staging-leaflet]
+    paths: [".github/workflows/fetch.yml"]
+permissions:
+  contents: write
+jobs:
+  f:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          mkdir -p dl/leaflet/images
+          for f in leaflet.js leaflet.css images/marker-icon.png images/marker-icon-2x.png images/marker-shadow.png images/layers.png; do curl -fsSL "https://unpkg.com/leaflet@1.9.4/dist/$f" -o "dl/leaflet/$f"; done
+          ls -la dl/leaflet
+          git config user.name "Claude"; git config user.email "noreply@anthropic.com"
+          git add dl && git commit -m "leaflet dist" && git push
