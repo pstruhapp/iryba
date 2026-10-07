@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>iRyba – Pstruh a Kapr</title>
-<meta name="description" content="Dvě bezplatné aplikace pro rybáře: Pstruh pro pstruhové revíry a Kapr pro mimopstruhové. Nejbližší revíry, podmínky lovu, průtoky a zarybnění.">
+<meta name="description" content="Dvě bezplatné aplikace pro rybáře: Pstruh pro pstruhové revíry a Kapr pro mimopstruhové. Nejbližší revíry, podmínky lovu, průtoky, zarybnění, poznávání ryb a zápis úlovku.">
 <meta name="theme-color" content="#0B3B3A">
 <link rel="icon" href="favicon.png" type="image/png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -16,37 +16,83 @@
   --bg:#EEF2EE; --surface:#FFFFFF; --sunk:#E3EAE5; --ink:#12201C; --muted:#56675F; --line:#CFDAD3;
   --p:#0E6B63; --p-deep:#0B3B3A; --p-soft:#D6ECE8;
   --k:#6B5A12; --k-deep:#2E2A10; --k-soft:#F1E8C8;
+  --warn:#8A4B08; --warn-soft:#FBEBD3;
   --f-display:"Barlow Condensed","Arial Narrow",system-ui,sans-serif;
   --f-body:"Atkinson Hyperlegible",system-ui,sans-serif;
 }
 @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
   --bg:#0C1412; --surface:#14201D; --sunk:#1B2A26; --ink:#E6EEEA; --muted:#9AABA3; --line:#2A3B36;
-  --p:#4DB6AA; --p-deep:#0B3B3A; --p-soft:#173733; --k:#D3B84E; --k-deep:#2E2A10; --k-soft:#2F2A14; } }
+  --p:#4DB6AA; --p-soft:#173733; --k:#D3B84E; --k-soft:#2F2A14; --warn:#F0B866; --warn-soft:#33260F; } }
 :root[data-theme="dark"]{ --bg:#0C1412; --surface:#14201D; --sunk:#1B2A26; --ink:#E6EEEA; --muted:#9AABA3; --line:#2A3B36;
-  --p:#4DB6AA; --p-deep:#0B3B3A; --p-soft:#173733; --k:#D3B84E; --k-deep:#2E2A10; --k-soft:#2F2A14; }
+  --p:#4DB6AA; --p-soft:#173733; --k:#D3B84E; --k-soft:#2F2A14; --warn:#F0B866; --warn-soft:#33260F; }
 *{box-sizing:border-box}
-html{-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.5}
-a{color:inherit}
-.wrap{max-width:760px;margin:0 auto;padding:0 16px 48px}
-header{padding:40px 0 20px;text-align:center}
-.brand{font-family:var(--f-display);font-weight:800;font-size:56px;line-height:.9;letter-spacing:.5px;margin:0}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.55}
+a{color:var(--p)}
+img{max-width:100%}
+.wrap{max-width:880px;margin:0 auto;padding:0 16px 56px}
+header{padding:40px 0 8px;text-align:center}
+.brand{font-family:var(--f-display);font-weight:800;font-size:60px;line-height:.9;letter-spacing:.5px;margin:0}
 .brand span{color:var(--p)}
-.lead{margin:12px auto 0;max-width:30em;color:var(--muted);font-size:17px}
-.apps{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-top:12px}
-.app{position:relative;display:flex;flex-direction:column;gap:12px;padding:20px;border-radius:20px;color:#fff;text-decoration:none;overflow:hidden;min-height:250px;transition:transform .15s ease}
-.app:hover{transform:translateY(-2px)}
-.app:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
-.app.p{background:linear-gradient(160deg,#0E6B63,#0B3B3A)}
-.app.k{background:linear-gradient(160deg,#6B5A12,#2E2A10)}
-.app img{width:76px;height:76px;border-radius:18px;box-shadow:0 4px 14px rgba(0,0,0,.25)}
-.app h2{margin:0;font-family:var(--f-display);font-weight:800;font-size:40px;line-height:1}
-.app p{margin:0;font-size:15px;opacity:.92}
-.app .go{margin-top:auto;display:inline-flex;align-items:center;gap:8px;align-self:flex-start;background:#fff;color:#12201C;font-weight:700;border-radius:999px;padding:10px 18px;font-size:16px}
-.app .url{font-size:13px;opacity:.8;font-family:ui-monospace,monospace}
-section.box{margin-top:28px;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:20px}
-h3{margin:0 0 4px;font-family:var(--f-display);font-weight:800;font-size:30px;line-height:1.05}
-.sub{margin:0 0 14px;color:var(--muted);font-size:15px}
+.lead{margin:16px auto 0;max-width:36em;font-size:18px}
+.lead2{margin:10px auto 0;max-width:36em;color:var(--muted);font-size:16px}
+h2{font-family:var(--f-display);font-weight:800;font-size:38px;line-height:1.05;margin:44px 0 6px}
+h3{font-family:var(--f-display);font-weight:800;font-size:27px;line-height:1.1;margin:0 0 8px}
+.sub{margin:0 0 16px;color:var(--muted)}
+
+/* dva náhledy */
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:28px}
+.app{display:flex;flex-direction:column;align-items:center;gap:12px;padding:18px 14px 20px;border-radius:22px;color:#fff;text-decoration:none;text-align:center}
+.app.p{background:linear-gradient(165deg,#0E6B63,#0B3B3A)}
+.app.k{background:linear-gradient(165deg,#6B5A12,#2E2A10)}
+.phone{width:100%;max-width:250px;border-radius:26px;padding:7px;background:#0b0f0e;box-shadow:0 10px 30px rgba(0,0,0,.35)}
+.phone img{display:block;width:100%;border-radius:20px;aspect-ratio:390/700;object-fit:cover;object-position:top}
+.app h3{margin:4px 0 0;font-size:34px;color:#fff}
+.app p{margin:0;font-size:15px;opacity:.92;max-width:22em}
+.go{display:inline-block;background:#fff;color:#12201C;font-weight:700;border-radius:999px;padding:10px 20px;font-size:16px}
+.url{font-size:13px;opacity:.8;font-family:ui-monospace,monospace}
+@media (max-width:520px){ .duo{gap:10px} .app{padding:12px 8px 16px;border-radius:18px} .app h3{font-size:28px} .app p{font-size:13.5px} .go{padding:8px 14px;font-size:15px} .phone{border-radius:20px;padding:5px} .phone img{border-radius:15px} }
+
+/* návod – funkce */
+.toc{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 8px}
+.toc a{text-decoration:none;font-size:14px;font-weight:700;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:6px 12px}
+.feat{display:grid;grid-template-columns:minmax(0,1fr) 230px;gap:22px;align-items:start;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:20px;margin-top:14px;scroll-margin-top:12px}
+.feat.noimg{grid-template-columns:1fr}
+.feat ul{margin:0;padding-left:20px;display:grid;gap:6px}
+.feat li::marker{color:var(--p)}
+.feat ul ul{margin-top:6px;gap:4px}
+.feat figure{margin:0}
+.feat figure a{display:block;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--sunk)}
+.feat figure img{display:block;width:100%;max-height:440px;object-fit:cover;object-position:top}
+.feat figcaption{font-size:12.5px;color:var(--muted);text-align:center;margin-top:6px}
+.tag{display:inline-block;font-size:12px;font-weight:700;border-radius:6px;padding:0 6px;vertical-align:1px}
+.tag.p{background:var(--p-soft);color:var(--p)} .tag.k{background:var(--k-soft);color:var(--k)}
+@media (max-width:700px){ .feat{grid-template-columns:1fr;padding:16px} .feat figure{max-width:300px;margin:0 auto;width:100%} .feat figure img{max-height:380px} h2{font-size:32px} }
+
+/* video */
+.video{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:16px;margin-top:14px;text-align:center}
+.video video{width:100%;max-width:320px;border-radius:18px;background:#000;display:block;margin:0 auto}
+
+/* právní */
+.legal{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:20px;margin-top:14px}
+.legal h3{font-size:23px;margin-top:18px}
+.legal h3:first-child{margin-top:0}
+.legal p,.legal li{font-size:15px}
+.legal ul{padding-left:20px;margin:6px 0 0;display:grid;gap:5px}
+.warnbox{background:var(--warn-soft);border-left:4px solid var(--warn);border-radius:10px;padding:12px 14px;margin:0 0 14px}
+.warnbox p{margin:0}
+
+/* souhlas */
+.agree{margin-top:18px;background:var(--surface);border:2px solid var(--p);border-radius:18px;padding:18px;scroll-margin-top:12px}
+.agree label{display:flex;gap:14px;align-items:flex-start;cursor:pointer;font-size:16.5px;font-weight:700}
+.agree input{width:28px;height:28px;flex:none;margin:0;accent-color:var(--p)}
+.agree .why{margin:10px 0 0 42px;font-size:14px;color:var(--muted)}
+.bonus{margin-top:18px}
+.bonus[hidden]{display:none}
+.ok{font-weight:700;color:var(--p);margin:0 0 6px}
+
+/* instalace */
+.box{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:20px;margin-top:14px}
 .tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;background:var(--sunk);padding:5px;border-radius:14px}
 .tabs button{font:inherit;font-weight:700;font-size:15px;border:0;border-radius:10px;padding:10px 4px;background:transparent;color:var(--muted);cursor:pointer}
 .tabs button[aria-selected=true]{background:var(--surface);color:var(--ink);box-shadow:0 1px 4px rgba(0,0,0,.12)}
@@ -54,105 +100,355 @@ h3{margin:0 0 4px;font-family:var(--f-display);font-weight:800;font-size:30px;li
 .pane[hidden]{display:none}
 .pane ol{margin:0;padding-left:22px;display:grid;gap:8px}
 .pane li::marker{font-weight:700;color:var(--p)}
-.pane .note{margin:12px 0 0;font-size:14px;color:var(--muted)}
-kbd{font-family:inherit;font-weight:700;background:var(--sunk);border:1px solid var(--line);border-bottom-width:2px;border-radius:6px;padding:0 6px;white-space:nowrap}
+.note{margin:12px 0 0;font-size:14px;color:var(--muted)}
 .dl{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
 .dlc{display:flex;align-items:center;gap:14px;padding:12px;border:1px solid var(--line);border-radius:14px;background:var(--bg)}
-.dlc img{width:64px;height:64px;border-radius:14px}
-.dlc b{display:block;font-size:17px}
-.dlc a{display:inline-block;margin-top:4px;font-weight:700;color:var(--p);font-size:15px}
+.dlc img{width:72px;height:72px;border-radius:16px}
+.dlc b{display:block;font-size:18px}
+.dlc a{display:inline-block;margin-top:4px;font-weight:700;font-size:15px}
 .dlc.k a{color:var(--k)}
-.small{font-size:13px;color:var(--muted);margin:12px 0 0}
-footer{margin-top:32px;text-align:center;color:var(--muted);font-size:14px}
-footer a{color:var(--p);font-weight:700}
-@media (max-width:420px){ .brand{font-size:46px} .tabs button{font-size:14px} .app{min-height:0} }
+footer{margin-top:40px;text-align:center;color:var(--muted);font-size:14px}
+footer a{font-weight:700}
+@media (max-width:420px){ .brand{font-size:50px} .tabs button{font-size:14px} }
 </style>
 </head>
 <body>
 <div class="wrap">
   <header>
     <h1 class="brand">i<span>Ryba</span></h1>
-    <p class="lead">Dvě bezplatné aplikace pro rybáře. Najdou nejbližší revíry a ukážou podmínky lovu, průtoky a zarybnění.</p>
+    <p class="lead">Vítej u vody! <b>Pstruh</b> a <b>Kapr</b> jsou dvě bezplatné aplikace pro rybáře v Česku. Najdou ti nejbližší revíry, řeknou, co na nich dnes platí, ukážou průtoky a zarybnění, pomůžou poznat rybu a zapsat úlovek.</p>
+    <p class="lead2">Bez registrace, bez reklam, v telefonu i v počítači. Pstruh je pro pstruhové vody, Kapr pro mimopstruhové – umí ale obojí.</p>
   </header>
 
-  <div class="apps">
+  <div class="duo">
     <a class="app p" href="https://pstruh.iryba.cz/">
-      <img src="ikony/pstruh-ikona.png" alt="">
-      <h2>Pstruh</h2>
-      <p>Pstruhové revíry: lovné míry, doba lovu, průtoky z ČHMÚ a zarybnění pstruhem.</p>
+      <div class="phone"><img src="nahledy/pstruh.jpg" alt="Náhled aplikace Pstruh v telefonu"></div>
+      <h3>Pstruh</h3>
+      <p>Pstruhové revíry, horské toky, muškaření.</p>
       <span class="go">Otevřít Pstruh →</span>
       <span class="url">pstruh.iryba.cz</span>
     </a>
     <a class="app k" href="https://kapr.iryba.cz/">
-      <img src="ikony/kapr-ikona.png" alt="">
-      <h2>Kapr</h2>
-      <p>Mimopstruhové revíry: řeky, nádrže a tůně, podmínky lovu, průtoky a zarybnění kaprem.</p>
+      <div class="phone"><img src="nahledy/kapr.jpg" alt="Náhled aplikace Kapr v telefonu"></div>
+      <h3>Kapr</h3>
+      <p>Mimopstruhové revíry, řeky, nádrže, kaprařina.</p>
       <span class="go">Otevřít Kapr →</span>
       <span class="url">kapr.iryba.cz</span>
     </a>
   </div>
 
-  <section class="box" id="instalace">
-    <h3>Jak si aplikaci dát na plochu</h3>
-    <p class="sub">Nic se nestahuje z obchodu. Aplikaci otevřeš z ikony jako každou jinou. Postup je stejný pro Pstruh i Kapr.</p>
-    <div class="tabs" role="tablist">
-      <button role="tab" id="t-ios" aria-controls="p-ios" aria-selected="true">iPhone</button>
-      <button role="tab" id="t-and" aria-controls="p-and" aria-selected="false">Android</button>
-      <button role="tab" id="t-mac" aria-controls="p-mac" aria-selected="false">Mac</button>
-      <button role="tab" id="t-win" aria-controls="p-win" aria-selected="false">Windows</button>
-    </div>
-    <div class="pane" id="p-ios" role="tabpanel" aria-labelledby="t-ios">
-      <ol>
-        <li>Otevři aplikaci v <b>Safari</b> (pstruh.iryba.cz nebo kapr.iryba.cz).</li>
-        <li>Klepni na tlačítko <b>Sdílet</b> (čtvereček se šipkou nahoru) dole na liště.</li>
-        <li>Sjeď níž a vyber <b>Přidat na plochu</b>.</li>
-        <li>Potvrď <b>Přidat</b>. Ikona se objeví na ploše.</li>
-      </ol>
-      <p class="note">Na iPadu je tlačítko Sdílet nahoře vpravo vedle adresy.</p>
-    </div>
-    <div class="pane" id="p-and" role="tabpanel" aria-labelledby="t-and" hidden>
-      <ol>
-        <li>Otevři aplikaci v <b>Chrome</b>.</li>
-        <li>Klepni na <b>⋮</b> (tři tečky) vpravo nahoře.</li>
-        <li>Vyber <b>Přidat na plochu</b> nebo <b>Instalovat aplikaci</b>.</li>
-        <li>Potvrď <b>Instalovat</b> (nebo <b>Přidat</b>).</li>
-      </ol>
-      <p class="note">V Samsung Internetu: ☰ dole vpravo → <b>Přidat stránku do</b> → <b>Domovská obrazovka</b>.</p>
-    </div>
-    <div class="pane" id="p-mac" role="tabpanel" aria-labelledby="t-mac" hidden>
-      <ol>
-        <li>V <b>Safari</b> otevři aplikaci a v menu zvol <b>Soubor → Přidat do Docku</b>.</li>
-        <li>Potvrď <b>Přidat</b>. Aplikace bude v Docku i v Launchpadu.</li>
-      </ol>
-      <p class="note">V <b>Chrome</b>: ikona instalace vpravo v adresním řádku, nebo <b>⋮ → Uložit a sdílet → Instalovat stránku jako aplikaci</b>.</p>
-    </div>
-    <div class="pane" id="p-win" role="tabpanel" aria-labelledby="t-win" hidden>
-      <ol>
-        <li>V <b>Edge</b> otevři aplikaci a klepni na <b>⋯</b> vpravo nahoře.</li>
-        <li>Vyber <b>Aplikace → Instalovat tento web jako aplikaci</b>.</li>
-        <li>Potvrď <b>Instalovat</b>. Aplikaci pak najdeš v nabídce Start a můžeš ji připnout na hlavní panel.</li>
-      </ol>
-      <p class="note">V <b>Chrome</b>: ikona instalace vpravo v adresním řádku, nebo <b>⋮ → Uložit a sdílet → Instalovat stránku jako aplikaci</b>.</p>
+  <!--VIDEO-->
+
+  <h2 id="umi">Co všechno umí</h2>
+  <p class="sub">Obě aplikace fungují stejně. Kde se liší, je to označeno <span class="tag p">Pstruh</span> nebo <span class="tag k">Kapr</span>. Obrázky jdou otevřít ve větší velikosti.</p>
+  <nav class="toc">
+    <a href="#f-poloha">Poloha</a><a href="#f-reviry">3 nejbližší revíry</a><a href="#f-detail">Detail revíru</a><a href="#f-sance">Šance na záběr</a><a href="#f-zarybneni">Zarybnění</a><a href="#f-prutok">Průtok řek</a><a href="#f-aktuality">Aktuality</a><a href="#f-ryby">Poznej rybu</a><a href="#f-rad">Rybářský řád</a><a href="#f-ulovek">Zapsat úlovek</a><a href="#f-straz">Kontrola stráže</a><a href="#f-dalsi">Další</a>
+  </nav>
+
+  <section class="feat noimg" id="f-poloha">
+    <div>
+      <h3>1 · Typ vody a 2 · Kde jsi</h3>
+      <ul>
+        <li><b>Typ vody:</b> přepni <b>Pstruhové</b> nebo <b>Nepstruhové</b>. Podle toho se hledají revíry, mění se barvy a pořadí ryb v tabulkách. <span class="tag p">Pstruh</span> začíná na pstruhových, <span class="tag k">Kapr</span> na nepstruhových.</li>
+        <li><b>Podle GPS:</b> klepni na <b>Zjistit polohu z telefonu</b>. Aplikace napíše, s jakou přesností polohu zná. Když už máš polohu povolenou, zjistí se po otevření sama.</li>
+        <li><b>Nefunguje GPS?</b> Nápověda ukáže, kde polohu povolit v iPhonu a v Androidu. Můžeš také vložit souřadnice zkopírované z Apple nebo Google Map – aplikace je přečte v desetinném tvaru i ve stupních, minutách a vteřinách a pozná i prohozené pořadí.</li>
+        <li><b>Podle místa:</b> napiš obec, řeku nebo místo. Hledá se jen v Česku. Když první výsledek není ten pravý, nabídne další možnosti <i>„Nebylo to ono?“</i>.</li>
+        <li><b>Mapa:</b> klepnutím do mapy nastavíš bod, špendlík jde přetáhnout. V mapě jsou vidět úseky revírů zvoleného typu – klepnutím na úsek otevřeš jeho podmínky.</li>
+        <li>Rámeček pod tím ukazuje, kde jsi: název místa nebo „X km od“ nejbližšího města, souřadnice a odkud poloha pochází.</li>
+        <li>Aplikace si v telefonu pamatuje typ vody, způsob hledání i poslední polohu, takže příště začneš tam, kde jsi skončil.</li>
+        <li>Polohu jde poslat i odkazem – kdo ho otevře, uvidí revíry kolem stejného místa.</li>
+      </ul>
     </div>
   </section>
 
-  <section class="box" id="ikony">
-    <h3>Ikony ke stažení</h3>
-    <p class="sub">Pro zástupce, záložku nebo vlastní plochu. PNG 512 × 512 px.</p>
-    <div class="dl">
-      <div class="dlc"><img src="ikony/pstruh-ikona.png" alt="Ikona Pstruh"><div><b>Pstruh</b><a href="ikony/pstruh-ikona.png" download="pstruh-ikona.png">Stáhnout ikonu</a></div></div>
-      <div class="dlc k"><img src="ikony/kapr-ikona.png" alt="Ikona Kapr"><div><b>Kapr</b><a href="ikony/kapr-ikona.png" download="kapr-ikona.png">Stáhnout ikonu</a></div></div>
+  <section class="feat" id="f-reviry">
+    <div>
+      <h3>3 nejbližší revíry</h3>
+      <ul>
+        <li>Klepni na <b>Najít 3 nejbližší revíry</b>. Vzdálenost se měří vzdušnou čarou k nejbližšímu místu revíru, ne k jeho středu – takže víš, jak daleko je to opravdu k vodě.</li>
+        <li>Každá karta ukazuje název, číslo revíru, místní organizaci (MO) a kilometry. Když revír v RIS nemá mapu, upozorní, že poloha je přibližná.</li>
+        <li>Výsledky jsou očíslované i v mapě. Klepnutím na kartu nebo číslo otevřeš <b>detail revíru</b>.</li>
+        <li>Druhým klepnutím na tlačítko výsledky zase schováš (platí pro všechna velká tlačítka).</li>
+      </ul>
     </div>
-    <p class="small">Na iPhonu se obrázek otevře – podrž na něm prst a zvol <b>Uložit do Fotek</b>.</p>
+    <figure><a href="nahledy/vysledky.jpg" target="_blank"><img src="nahledy/vysledky.jpg" alt="Tři nejbližší revíry" loading="lazy"></a><figcaption>Tři nejbližší revíry</figcaption></figure>
   </section>
+
+  <section class="feat" id="f-detail">
+    <div>
+      <h3>Detail revíru</h3>
+      <ul>
+        <li><b>Hlavička:</b> číslo revíru, svaz, typ, název, která MO hospodaří, délka nebo rozloha a jak daleko je od tebe.</li>
+        <li><b>Řádek pro zápis do povolenky:</b> dnešní datum a revír. Tlačítko <b>Kopírovat revír</b> zkopíruje název revíru, který pak stačí vložit do Karty rybáře v RIS.</li>
+        <li><b>Upozornění nahoře:</b>
+          <ul>
+            <li><b>Platí omezení</b> – krátkodobé zákazy z RIS s důvodem a datem konce,</li>
+            <li><b>aktuální průtok</b> z nejbližší stanice ČHMÚ na stejné řece – m³/s, stav, trend ↑↓→ a běžný průtok,</li>
+            <li><b>poslední známé zarybnění</b> s druhy a množstvím.</li>
+          </ul></li>
+        <li><b>Dnes na revíru:</b> jestli je dnes lov povolen a v kolik hodin, které techniky jsou povolené (zeleně) a zakázané (přeškrtnuté) a co je výslovně zakázáno.</li>
+        <li><b>Popis revíru</b> z RIS – hranice, GPS body, místní pravidla.</li>
+        <li><b>Lovné míry a hájení:</b> tabulka všech druhů s nejmenší i největší mírou a u každého, jestli je <b>dnes hájen</b>, nebo <b>lze lovit</b>. <span class="tag p">Pstruh</span> má nahoře lososovité, <span class="tag k">Kapr</span> kapra, amura, štiku, candáta, sumce a lína.</li>
+        <li><b>Limity úlovků</b> a <b>zarybnění místní organizace</b> za poslední období.</li>
+        <li><b>Odkazy:</b> Karta revíru v RIS a navigace k nejbližšímu bodu revíru přes Apple Mapy, Google Mapy nebo Mapy.cz.</li>
+      </ul>
+    </div>
+    <figure><a href="nahledy/detail.jpg" target="_blank"><img src="nahledy/detail.jpg" alt="Detail revíru" loading="lazy"></a><figcaption>Detail revíru s růžicí šance na záběr</figcaption></figure>
+  </section>
+
+  <section class="feat noimg" id="f-sance">
+    <div>
+      <h3>Šance na záběr dnes</h3>
+      <ul>
+        <li>V detailu revíru je <b>růžice</b> s rybou uprostřed. Čím větší ryba a vyšší procento, tím lepší podmínky.</li>
+        <li>Odhad počítá ze sedmi věcí – každá v růžici ukáže, jestli pomáhá (+), nebo brzdí (−):
+          <ul>
+            <li><b>tlak</b> (klesající pomáhá, stoupající brzdí),</li>
+            <li><b>teplota</b> vzduchu a odhad teploty vody (jiný ideál pro pstruhové a jiný pro nepstruhové vody),</li>
+            <li><b>vítr a obloha</b> (zataženo a mírný vítr pomáhají, vichr a liják brzdí),</li>
+            <li><b>průtok</b> (vysoká a stoupající voda brzdí),</li>
+            <li><b>denní doba</b> (svítání a soumrak nejlepší),</li>
+            <li><b>zarybnění</b> (čerstvé vysazení pomáhá),</li>
+            <li><b>roční období</b>.</li>
+          </ul></li>
+        <li>Pod růžicí je slovní hodnocení, co pomáhá a co brzdí a <b>nejlepší čas</b> dnes (ráno kolem svítání, večer kolem soumraku, případně „až voda opadne“).</li>
+        <li>Když se na revíru dnes lovit nesmí (hájení pstruhových vod 1. 12. – 15. 4., krátkodobý zákaz), ukáže <b>0 % – lov není povolen</b>.</li>
+        <li>Je to jen <b>odhad</b> – ryby mají i své dny.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="feat" id="f-zarybneni">
+    <div>
+      <h3>Zarybněno za posledních 6 týdnů</h3>
+      <ul>
+        <li>Přehled vysazení ryb za 42 dní podle zvoleného typu vody (u pstruhových pstruzi, sivení, lipani a hlavatky).</li>
+        <li>Každá karta: revír nebo MO, druhy s množstvím a velikostí, datum a štítek, odkud informace je (ověřeno podle svazu).</li>
+        <li>Řazení <b>Nejnovější</b> nebo <b>Nejblíž mně</b> (s kilometry od tebe).</li>
+        <li>Pod seznamem jsou <b>zprávy svazů o vysazení</b>, které nejsou rozepsané po revírech, s odkazem na zdroj.</li>
+        <li>Přehledy po revírech zveřejňují jen některé svazy (Praha, Jihočeský, Východočeský), u ostatních je k dispozici jen to, co svaz oznámí.</li>
+      </ul>
+    </div>
+    <figure><a href="nahledy/zarybneni.jpg" target="_blank"><img src="nahledy/zarybneni.jpg" alt="Zarybnění" loading="lazy"></a><figcaption>Zarybněno za 6 týdnů</figcaption></figure>
+  </section>
+
+  <section class="feat" id="f-prutok">
+    <div>
+      <h3>Průtok řek</h3>
+      <ul>
+        <li>Tabulka stanic ČHMÚ s časem posledního měření. <span class="tag p">Pstruh</span> ukazuje pstruhové toky po horských oblastech, <span class="tag k">Kapr</span> nepstruhové řeky po povodích.</li>
+        <li>Filtry: <b>Nejblíž mně</b> (10 nejbližších stanic), <b>Vše</b>, nebo jednotlivé oblasti.</li>
+        <li>U každé stanice: řeka a stanice (s km od tebe), průtok teď, běžný průtok, <b>stav</b> v procentech běžného (velmi málo vody … vysoký, kalný) a <b>trend</b> ↑ stoupá, ↓ klesá, → ustálený.</li>
+        <li>Když jsou data starší, upozorní oranžově. Pod tabulkou je vysvětlivka a odkaz na ČHMÚ.</li>
+      </ul>
+    </div>
+    <figure><a href="nahledy/prutok.jpg" target="_blank"><img src="nahledy/prutok.jpg" alt="Průtok řek" loading="lazy"></a><figcaption>Průtoky z ČHMÚ</figcaption></figure>
+  </section>
+
+  <section class="feat" id="f-aktuality">
+    <div>
+      <h3>Aktuality</h3>
+      <ul>
+        <li>Zprávy z RIS Portálu ČRS a územních svazů od nejnovějších – datum, zdroj, titulek a krátký úryvek, klepnutím otevřeš celý článek.</li>
+        <li>Filtry: Vše, Zarybnění, Zákazy a sucho a <span class="tag p">Pstruh</span> Muškaření / <span class="tag k">Kapr</span> Kaprařina.</li>
+      </ul>
+    </div>
+    <figure><a href="nahledy/aktuality.jpg" target="_blank"><img src="nahledy/aktuality.jpg" alt="Aktuality" loading="lazy"></a><figcaption>Aktuality svazů</figcaption></figure>
+  </section>
+
+  <section class="feat" id="f-ryby">
+    <div>
+      <h3>Poznej rybu – a co s ní</h3>
+      <ul>
+        <li><b>Atlas 41 druhů</b> s obrázky. Hledej podle českého i latinského jména nebo filtruj skupiny: Lososovité, Kaprovité, Dravci, Ostatní, Nepůvodní. U každé ryby je běžná délka v dospělosti.</li>
+        <li>Po klepnutí na rybu: <b>Jak ji poznáš</b>, <b>Pozor na záměnu</b> (s čím se plete) a velký obrázek.</li>
+        <li><b>Co s ní?</b> – když rybu poznáš podle obrázku, aplikace ti podle tvé polohy řekne, jak s ní naložit:
+          <ul>
+            <li>nabídne revír, kde právě jsi (vybraný revír a nejbližší revíry podle zadané polohy, nebo obecný pstruhový / mimopstruhový revír),</li>
+            <li>napiš délku ryby v cm – výsledek se mění hned při psaní,</li>
+            <li>porovná ji s <b>lovnou mírou</b> a <b>hájením</b> přímo na tom revíru podle RIS a Rybářského řádu,</li>
+            <li>verdikt: <b>Můžeš si ji ponechat</b>, <b>Pusť ji šetrně zpět</b> (s důvodem – pod mírou, hájená, chráněná, na revíru platí zákaz), <b>Musíš si ji ponechat</b>, nebo u invazních druhů <b>Nevracej ji do vody</b>,</li>
+            <li>připomene <b>denní limity</b> a jestli se ryba do limitu počítá,</li>
+            <li>a <b>odhadne hmotnost</b> z délky.</li>
+          </ul></li>
+      </ul>
+    </div>
+    <figure><a href="nahledy/ryba.jpg" target="_blank"><img src="nahledy/ryba.jpg" alt="Poznej rybu – Co s ní" loading="lazy"></a><figcaption>Pstruh obecný – co s ním na revíru Labe v říjnu</figcaption></figure>
+  </section>
+
+  <section class="feat" id="f-rad">
+    <div>
+      <h3>Rybářský řád</h3>
+      <ul>
+        <li>Celý Rybářský řád ČRS (platný 2026–2027) v telefonu, rozdělený na tři části: Zákon a vyhláška, Povolené způsoby lovu a technické prostředky, Bližší podmínky výkonu rybářského práva.</li>
+        <li><b>Hledání</b> v řádu – vyfiltruje oddíly a zvýrazní hledaný text.</li>
+        <li>Odkazy na plné znění v PDF pro pstruhové i mimopstruhové revíry.</li>
+      </ul>
+    </div>
+    <figure><a href="nahledy/rad.jpg" target="_blank"><img src="nahledy/rad.jpg" alt="Rybářský řád" loading="lazy"></a><figcaption>Rybářský řád s hledáním</figcaption></figure>
+  </section>
+
+  <section class="feat" id="f-ulovek">
+    <div>
+      <h3>Zapsat úlovek</h3>
+      <ul>
+        <li><b>📋 Otevřít kartu rybáře – RIS:</b> odkaz rovnou na docházku a úlovky v RIS Portálu ČRS, návod k přihlášení a registraci (aktivuješ ji číslem povolenky, rybářského lístku nebo legitimace) a připomenutí, jak se zapisuje do papírové povolenky.</li>
+        <li><b>📧 Poslat sobě:</b> záznam o lovu do tvého e-mailu.
+          <ul>
+            <li>vyber revír (vybraný a nejbližší podle polohy),</li>
+            <li>až <b>3 úlovky</b> – u každého ryba, délka a hmotnost (když nevážíš, ukáže odhad z délky),</li>
+            <li>u každého úlovku <b>3 fotky</b>: úlovek, místo lovu a nástraha. Fotku úlovku zmenší do <b>600 kB</b>, aby šla nahrát do RIS, a umí ji rovnou uložit,</li>
+            <li>poznámka a tvůj e-mail (zapamatuje si ho jen tvůj telefon),</li>
+            <li>e-mail s předmětem <b>„Lov ryb“ a datum</b> obsahuje revír, odkaz na kartu revíru, polohu, úlovky s kontrolou lovné míry a <b>podmínky v době lovu</b> – teplotu, tlak, počasí, průtok, východ a západ slunce, dobu lovu a zarybnění.</li>
+          </ul></li>
+      </ul>
+    </div>
+    <figure><a href="nahledy/ulovek.jpg" target="_blank"><img src="nahledy/ulovek.jpg" alt="Zapsat úlovek – Poslat sobě" loading="lazy"></a><figcaption>Poslat sobě</figcaption></figure>
+  </section>
+
+  <section class="feat" id="f-straz">
+    <div>
+      <h3>Jak u kontroly rybářské stráže</h3>
+      <ul>
+        <li>Klidný návod, jak kontrolu zvládnout slušně a bez stresu – proč kontroly jsou a <b>5 kroků</b>: pozdrav, doklady, nářadí a úlovek, zápis v povolence, když něco nesedí.</li>
+        <li>Rozbalovací části: co stráž smí a co dělat nemá, pokuta na místě, řízení u úřadu a lhůty, jaké pokuty hrozí, zadržená povolenka, jak se slušně bránit.</li>
+        <li><b>Zeptej se:</b> napiš otázku (třeba „doba lovu“, „bójka“, „vezírek“) a aplikace najde odpověď přímo v Rybářském řádu ČRS.</li>
+      </ul>
+    </div>
+    <figure><a href="nahledy/zeptej.jpg" target="_blank"><img src="nahledy/zeptej.jpg" alt="Zeptej se – odpověď z Rybářského řádu" loading="lazy"></a><figcaption>Zeptej se: „doba lovu“</figcaption></figure>
+  </section>
+
+  <section class="feat noimg" id="f-dalsi">
+    <div>
+      <h3>A ještě</h3>
+      <ul>
+        <li><b>Poslat kamarádovi</b> – sdílení odkazu na aplikaci jedním klepnutím.</li>
+        <li><b>Přispět</b> – dobrovolný příspěvek od 25 Kč kartou, Apple Pay nebo Google Pay na provoz aplikací.</li>
+        <li><b>Napište nám</b> – e-mail s připravenou šablonou, když chybí revír nebo nesedí údaj.</li>
+        <li>Data se obnovují <b>každé ráno</b>. Aplikace si pamatuje naposledy načtené údaje, takže při slabém signálu u vody ukáže to, co už jednou viděla (mapa a hledání míst potřebují internet).</li>
+        <li>Pokrývá <b>1 449 revírů ČRS</b> ze svazů Jihočeský, Moravskoslezský, Severočeský, Středočeský, Východočeský, Západočeský a města Prahy. Revíry Moravského rybářského svazu zatím zahrnuté nejsou.</li>
+      </ul>
+    </div>
+  </section>
+
+  <h2 id="zdroje">Zdroje a upozornění</h2>
+  <p class="sub">Prosíme, přečti si to – je to krátké a důležité.</p>
+  <div class="legal">
+    <div class="warnbox"><p><b>Aplikace jsou pomůcka, ne úřední zdroj.</b> Závazné jsou vždy tvoje povolenka, Rybářský řád, podmínky revíru v RIS Portálu ČRS a pokyny rybářské stráže. Před lovem si podmínky ověř.</p></div>
+
+    <h3>Odkud bereme data</h3>
+    <ul>
+      <li><b>Revíry, podmínky lovu, lovné míry, hájení, limity, krátkodobá omezení:</b> veřejné údaje RIS Portálu Českého rybářského svazu (ČRS).</li>
+      <li><b>Zarybnění a aktuality:</b> veřejné zprávy a přehledy územních svazů ČRS a RIS Portálu.</li>
+      <li><b>Průtoky:</b> Český hydrometeorologický ústav (ČHMÚ).</li>
+      <li><b>Počasí, východ a západ slunce:</b> Open-Meteo.</li>
+      <li><b>Mapa a hledání míst:</b> OpenStreetMap a jeho přispěvatelé.</li>
+      <li><b>Rybářský řád:</b> text Rybářského řádu ČRS a zákona č. 99/2004 Sb. s prováděcí vyhláškou.</li>
+      <li><b>Obrázky ryb:</b> Wikimedia Commons, u každého obrázku je uveden autor a licence.</li>
+    </ul>
+    <p>Údaje se stahují automaticky každé ráno. Mezi změnou u zdroje a jejím objevením v aplikaci tak může uběhnout až den, a některé údaje mohou být neúplné, zastaralé nebo chybně převzaté.</p>
+
+    <h3>Za co nemůžeme ručit</h3>
+    <ul>
+      <li>Za <b>úplnost, správnost a aktuálnost</b> převzatých údajů. Chyby ve zdrojích nebo při jejich zpracování se mohou objevit i v aplikaci.</li>
+      <li>Za rozhodnutí u vody. Verdikt <b>„Co s ní?“</b>, kontrola lovné míry v „Poslat sobě“ i odhady hmotnosti jsou <b>orientační</b>. Za to, zda si rybu ponecháš, a za správný zápis odpovídá vždy rybář.</li>
+      <li><b>Šance na záběr</b>, odhad teploty vody a nejlepšího času jsou jen odhady z počasí a průtoku, ne předpověď úspěchu.</li>
+      <li>Část <b>Jak u kontroly rybářské stráže</b> a odpovědi <b>Zeptej se</b> jsou obecné informace, <b>nejde o právní poradenství</b>. V konkrétní věci se obrať na svou MO, svaz nebo advokáta.</li>
+      <li><b>Navigace</b> vede k nejbližšímu bodu revíru vzdušnou čarou. Respektuj soukromé pozemky, zákazy vstupu a vjezdu a dbej na bezpečnost u vody.</li>
+      <li>Za <b>dostupnost</b> aplikací a zdrojů dat. Aplikace jsou poskytovány zdarma, tak jak jsou, a mohou být kdykoli změněny, omezeny nebo ukončeny.</li>
+      <li>Odpovědnost za škodu vzniklou použitím aplikací je vyloučena v rozsahu, v jakém to právní předpisy dovolují.</li>
+    </ul>
+
+    <h3>Kdo za aplikacemi stojí</h3>
+    <p>Pstruh a Kapr jsou <b>neoficiální</b> nekomerční aplikace, které dělá parta rybářů ve volném čase (Tým Pstruh &amp; Kapr). Nejsou produktem ani oficiálním kanálem Českého rybářského svazu, Moravského rybářského svazu, ČHMÚ ani jiných uvedených zdrojů a nejsou s nimi nijak propojeny.</p>
+
+    <h3>Soukromí</h3>
+    <ul>
+      <li>Nemáme žádné účty ani registraci a <b>tvoje údaje k nám neposíláme</b>. Nastavení, poslední poloha a e-mail pro „Poslat sobě“ zůstávají jen v tvém zařízení.</li>
+      <li>Aby aplikace fungovala, posílá souřadnice nebo hledaný text přímo poskytovatelům služeb: počasí (Open-Meteo), mapy a hledání míst (OpenStreetMap). „Poslat sobě“ odesílá tvoje vlastní pošta, my e-mail ani fotky nevidíme.</li>
+      <li>Návštěvnost měříme anonymně službou GoatCounter, bez cookies a bez sledování konkrétních lidí.</li>
+    </ul>
+
+    <h3>Příspěvky</h3>
+    <p>Příspěvek je <b>dobrovolný dar</b> na provoz a rozvoj aplikací. Nejde o platbu za službu a nevzniká z něj nárok na žádné plnění. Platby zpracovává Stripe, údaje o kartě k nám nechodí.</p>
+
+    <h3>Chyby a připomínky</h3>
+    <p>Našel jsi chybu nebo chybí revír? Napiš na <a href="mailto:pstruhakapr@gmail.com">pstruhakapr@gmail.com</a> – opravíme to co nejdřív. Používáním aplikací souhlasíš s těmito podmínkami. Můžeme je upravit, platí vždy aktuální znění na této stránce.</p>
+  </div>
+
+  <div class="agree" id="instalace">
+    <label><input type="checkbox" id="ok"> Přečetl/a jsem si to a rozumím: aplikace jsou orientační pomůcka a závazné jsou podmínky v RIS, povolence a Rybářském řádu.</label>
+    <p class="why">Po zaškrtnutí se ti ukáže návod, jak si dát Pstruha a Kapra na plochu telefonu nebo počítače – a jako bonus jejich ikony ke stažení.</p>
+  </div>
+
+  <div class="bonus" id="bonus" hidden>
+    <p class="ok">Díky! Tady je návod i bonus. 🎣</p>
+    <section class="box">
+      <h3>Jak si aplikaci dát na plochu</h3>
+      <p class="sub">Nic se nestahuje z obchodu. Aplikaci pak otevřeš z ikony jako každou jinou. Postup je stejný pro Pstruh i Kapr.</p>
+      <div class="tabs" role="tablist">
+        <button role="tab" id="t-ios" aria-controls="p-ios" aria-selected="true">iPhone</button>
+        <button role="tab" id="t-and" aria-controls="p-and" aria-selected="false">Android</button>
+        <button role="tab" id="t-mac" aria-controls="p-mac" aria-selected="false">Mac</button>
+        <button role="tab" id="t-win" aria-controls="p-win" aria-selected="false">Windows</button>
+      </div>
+      <div class="pane" id="p-ios" role="tabpanel" aria-labelledby="t-ios">
+        <ol>
+          <li>Otevři aplikaci v <b>Safari</b> (pstruh.iryba.cz nebo kapr.iryba.cz).</li>
+          <li>Klepni na tlačítko <b>Sdílet</b> (čtvereček se šipkou nahoru) dole na liště.</li>
+          <li>Sjeď níž a vyber <b>Přidat na plochu</b>.</li>
+          <li>Potvrď <b>Přidat</b>. Ikona se objeví na ploše.</li>
+        </ol>
+        <p class="note">Na iPadu je tlačítko Sdílet nahoře vpravo vedle adresy.</p>
+      </div>
+      <div class="pane" id="p-and" role="tabpanel" aria-labelledby="t-and" hidden>
+        <ol>
+          <li>Otevři aplikaci v <b>Chrome</b>.</li>
+          <li>Klepni na <b>⋮</b> (tři tečky) vpravo nahoře.</li>
+          <li>Vyber <b>Přidat na plochu</b> nebo <b>Instalovat aplikaci</b>.</li>
+          <li>Potvrď <b>Instalovat</b> (nebo <b>Přidat</b>).</li>
+        </ol>
+        <p class="note">V Samsung Internetu: ☰ dole vpravo → <b>Přidat stránku do</b> → <b>Domovská obrazovka</b>.</p>
+      </div>
+      <div class="pane" id="p-mac" role="tabpanel" aria-labelledby="t-mac" hidden>
+        <ol>
+          <li>V <b>Safari</b> otevři aplikaci a v menu zvol <b>Soubor → Přidat do Docku</b>.</li>
+          <li>Potvrď <b>Přidat</b>. Aplikace bude v Docku i v Launchpadu.</li>
+        </ol>
+        <p class="note">V <b>Chrome</b>: ikona instalace vpravo v adresním řádku, nebo <b>⋮ → Uložit a sdílet → Instalovat stránku jako aplikaci</b>.</p>
+      </div>
+      <div class="pane" id="p-win" role="tabpanel" aria-labelledby="t-win" hidden>
+        <ol>
+          <li>V <b>Edge</b> otevři aplikaci a klepni na <b>⋯</b> vpravo nahoře.</li>
+          <li>Vyber <b>Aplikace → Instalovat tento web jako aplikaci</b>.</li>
+          <li>Potvrď <b>Instalovat</b>. Aplikaci pak najdeš v nabídce Start a můžeš ji připnout na hlavní panel.</li>
+        </ol>
+        <p class="note">V <b>Chrome</b>: ikona instalace vpravo v adresním řádku, nebo <b>⋮ → Uložit a sdílet → Instalovat stránku jako aplikaci</b>.</p>
+      </div>
+    </section>
+
+    <section class="box">
+      <h3>Bonus: ikony ke stažení</h3>
+      <p class="sub">Pro zástupce, záložku nebo vlastní plochu. PNG 512 × 512 px.</p>
+      <div class="dl">
+        <div class="dlc"><img src="ikony/pstruh-ikona.png" alt="Ikona Pstruh"><div><b>Pstruh</b><a href="ikony/pstruh-ikona.png" download="pstruh-ikona.png">Stáhnout ikonu</a></div></div>
+        <div class="dlc k"><img src="ikony/kapr-ikona.png" alt="Ikona Kapr"><div><b>Kapr</b><a href="ikony/kapr-ikona.png" download="kapr-ikona.png">Stáhnout ikonu</a></div></div>
+      </div>
+      <p class="note">Na iPhonu se obrázek otevře – podrž na něm prst a zvol <b>Uložit do Fotek</b>.</p>
+    </section>
+  </div>
 
   <footer>
-    <p>Aplikace jsou zdarma, bez reklam a bez registrace. Data: rybářské svazy, ČHMÚ, Open-Meteo.</p>
+    <p>Pstruh a Kapr jsou zdarma, bez reklam a bez registrace.</p>
     <p>Napište nám: <a href="mailto:pstruhakapr@gmail.com">pstruhakapr@gmail.com</a><br>Tým Pstruh &amp; Kapr</p>
   </footer>
 </div>
 <script>
 (function(){
+  var ok=document.getElementById('ok'), bonus=document.getElementById('bonus');
+  function show(on){ bonus.hidden=!on; }
+  try{ if(localStorage.getItem('iryba-ok')==='1'){ ok.checked=true; show(true); } }catch(e){}
+  ok.addEventListener('change',function(){ show(ok.checked); try{ localStorage.setItem('iryba-ok',ok.checked?'1':'0'); }catch(e){} if(ok.checked) setTimeout(function(){ bonus.scrollIntoView({behavior:'smooth',block:'start'}); },50); });
   var tabs=[].slice.call(document.querySelectorAll('[role=tab]'));
   function sel(id){ tabs.forEach(function(t){ var on=t.id===id; t.setAttribute('aria-selected',on); document.getElementById(t.getAttribute('aria-controls')).hidden=!on; }); }
   tabs.forEach(function(t){ t.addEventListener('click',function(){ sel(t.id); }); });
