@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: bash tools/groups.sh
+      - run: bash tools/stock.sh
       - run: |
           git config user.name "Claude"; git config user.email "noreply@anthropic.com"
-          git add mrs5 && git commit -q -m "mrs groups" && git push
+          git add mrs6 && git commit -q -m "stock pages" && git push
