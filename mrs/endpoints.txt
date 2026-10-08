@@ -1,0 +1,10 @@
+fetch("/appsettings.json"
+url('/fonts/inter-latin-ext.woff2'
+url('/fonts/inter-latin.woff2'
+url:"/kontakty"
+url:"/pro-rybare"
+url:"https://bushman.cz/"
+url:"https://drive.google.com/file/d/1cx2ezPEpwcICeQb25SzjKvTSyKAOGtSy/view"
+url:"https://online.pvzp.cz/clfe/travel/#/trip-kind?partner=RYS&kod=RYS202301"
+"/appsettings.json"
+"/reviry"

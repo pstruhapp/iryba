@@ -1,0 +1,2 @@
+/assets/index-MOoJ8643.js
+/assets/vue-vendor-BHXcf44k.js
