@@ -11,12 +11,18 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: |
-          mkdir -p mrs2 && cd mrs2
+          mkdir -p mrs3/d && cd mrs3
           UA="Mozilla/5.0 (iryba.cz data check; pstruhakapr@gmail.com)"
-          curl -sSL -A "$UA" https://mrsbrno.cz/appsettings.json -o appsettings.json; cat appsettings.json
-          for a in Territories-B_DUTAep.js TerritoryDetail-C-XH_kkB.js Associations-CORXiTDM.js AssociationDetail-k8gWoIOK.js Regulations-BkIkOzj1.js; do curl -sSL -A "$UA" "https://mrsbrno.cz/assets/$a" -o "$a"; done
-          grep -ohE '`[^`]{0,80}`|"/[A-Za-z0-9/_-]{3,80}"' Territor*.js Assoc*.js | sort -u > strings.txt; cat strings.txt | head -80
-          ls -la
+          K=$(curl -sSL -A "$UA" https://mrsbrno.cz/appsettings.json | python3 -c "import sys,json;print(json.load(sys.stdin)['api']['apiKey'])")
+          curl -sSL -A "$UA" -H "WebApiKey: $K" -H "Accept: application/json" "https://mrsbrno.cz/api/public-district?current_page=1&page_size=1000&sort_column=code&sort_direction=asc&search=" -o list.json
+          head -c 1500 list.json; echo
+          python3 - <<'P'
+          import json; d=json.load(open("list.json")); it=d.get("items",d if isinstance(d,list) else [])
+          print("items",len(it), "keys", list(it[0].keys()) if it else None, {k:v for k,v in d.items() if k!="items"} if isinstance(d,dict) else "")
+          open("ids.txt","w").write("\n".join(str(x["id"]) for x in it))
+          P
+          n=0; while read id; do curl -sSL -A "$UA" -H "WebApiKey: $K" -H "Accept: application/json" "https://mrsbrno.cz/api/public-district/$id" -o "d/$id.json"; n=$((n+1)); sleep 0.25; done < ids.txt; echo "details $n"
+          curl -sSL -A "$UA" "https://www.google.com/maps/d/kml?mid=15FSr1J9DydKmj-fxUsVPQ9cjhI9G9MLM&forcekml=1" -o mapa.kml; ls -la mapa.kml; head -c 600 mapa.kml
       - run: |
           git config user.name "Claude"; git config user.email "noreply@anthropic.com"
-          git add mrs2 && git commit -m "mrs fetch 2" && git push
+          git add mrs3 && git commit -q -m "mrs data" && git push
