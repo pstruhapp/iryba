@@ -11,17 +11,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: |
-          set -x
-          mkdir -p mrs && cd mrs
+          mkdir -p mrs2 && cd mrs2
           UA="Mozilla/5.0 (iryba.cz data check; pstruhakapr@gmail.com)"
-          for p in reviry predpisy spolky kontakty pro-rybare ""; do curl -sSL -A "$UA" "https://mrsbrno.cz/$p" -o "page-${p:-home}.html" || true; done
-          grep -oE '(src|href)="[^"]+\.(js|json)[^"]*"' page-reviry.html | sed -E 's/^(src|href)="//; s/"$//' | sort -u > assets.txt || true
-          cat assets.txt
-          i=0; while read a; do i=$((i+1)); case "$a" in http*) u="$a";; //*) u="https:$a";; /*) u="https://mrsbrno.cz$a";; *) u="https://mrsbrno.cz/$a";; esac; curl -sSL -A "$UA" "$u" -o "asset-$i.$(echo $a | grep -oE '\.(js|json)' | head -1 | tr -d .)" || true; echo "$i $u" >> assets-map.txt; done < assets.txt
-          grep -ohE "(fetch|ajax|getJSON|axios\.get|url)\s*[:(]\s*['\"][^'\"]+['\"]" page-reviry.html asset-* 2>/dev/null | sort -u > endpoints.txt || true
-          grep -ohE "['\"](/[a-z0-9_/.-]*(api|json|revir|ajax)[a-z0-9_/.?=&-]*)['\"]" page-reviry.html asset-* 2>/dev/null | sort -u >> endpoints.txt || true
-          cat endpoints.txt
+          curl -sSL -A "$UA" https://mrsbrno.cz/appsettings.json -o appsettings.json; cat appsettings.json
+          for a in Territories-B_DUTAep.js TerritoryDetail-C-XH_kkB.js Associations-CORXiTDM.js AssociationDetail-k8gWoIOK.js Regulations-BkIkOzj1.js; do curl -sSL -A "$UA" "https://mrsbrno.cz/assets/$a" -o "$a"; done
+          grep -ohE '`[^`]{0,80}`|"/[A-Za-z0-9/_-]{3,80}"' Territor*.js Assoc*.js | sort -u > strings.txt; cat strings.txt | head -80
           ls -la
       - run: |
           git config user.name "Claude"; git config user.email "noreply@anthropic.com"
-          git add mrs && git commit -m "mrs fetch" && git push
+          git add mrs2 && git commit -m "mrs fetch 2" && git push
