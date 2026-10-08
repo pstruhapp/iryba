@@ -1,0 +1,28 @@
+"/predpisy"
+"/public-district"
+"/public-group"
+"/reviry"
+"/spolky"
+`${((a=t.value)==null?void 0:a.name)||"Revír"} | MRS - Moravský rybářský svaz`
+`${((s=t.value)==null?void 0:s.name)||"Spolek"} | MRS - Moravský rybářský svaz`
+`${r.belongsToGroup.number} ${r.belongsToGroup.name}`
+`/public-district/${a}`
+`/public-group/${s}`
+`/reviry/${a.id}`
+`/reviry/${t.id}`
+`/spolky/${s.id}#reviry`
+`/spolky/${s.id}`
+`Pobočný spolek ${((A=o.association)==null?void 0:A.number)||""}`
+`Přečíst více (${o.allMimopstruhoveReviry.length-10})`
+`Přečíst více (${o.allPstruhoveReviry.length-10})`
+`Zobrazit více (${n.getFilteredFunctionariesCount(s)-3})`
+`https://maps.googleapis.com/maps/api/js?${o}callback=initGoogleMaps`
+`https://www.google.com/maps?q=${e.endLatitude},${e.endLongitude}`
+`https://www.google.com/maps?q=${e.latitude},${e.longitude}`
+`key=${t}&`
+`m-${m}`
+`mailto:${a.email}`
+`mailto:${e.email}`
+`mailto:${o.association.email}`
+`mailto:${r.territory.belongsToGroup.email}`
+`p-${m}`
