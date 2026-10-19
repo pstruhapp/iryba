@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+Disallow: /obchodni-podminky.html
+Sitemap: https://iryba.cz/sitemap.xml
