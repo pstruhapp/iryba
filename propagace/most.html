@@ -1,0 +1,15 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="robots" content="noindex">
+<title>most</title>
+<script>
+// Pomocná stránka: předá obrázek z /propagace/ do Meta Business Suite (vložení příspěvku).
+addEventListener("message", async e => {
+  if (e.origin !== "https://business.facebook.com") return;
+  const n = String(e.data && e.data.want || "");
+  if (!/^[\w-]+\.jpg$/.test(n)) return;
+  const b = await (await fetch("/propagace/" + n)).blob();
+  e.source.postMessage({ name: n, blob: b }, e.origin);
+});
+parent.postMessage({ ready: true }, "https://business.facebook.com");
+</script>
