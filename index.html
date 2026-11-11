@@ -51,6 +51,9 @@ header{padding:40px 0 8px;text-align:center}
 h2{font-family:var(--f-display);font-weight:800;font-size:38px;line-height:1.05;margin:44px 0 6px}
 h3{font-family:var(--f-display);font-weight:800;font-size:27px;line-height:1.1;margin:0 0 8px}
 .sub{margin:0 0 16px;color:var(--muted)}
+.vhead{display:flex;align-items:center;justify-content:flex-start;gap:10px 16px;flex-wrap:wrap;margin:44px 0 6px;scroll-margin-top:12px}.vhead h2{margin:0}
+.vbtn{display:inline-flex;align-items:center;gap:6px;background:#C8652A;color:#fff;text-decoration:none;font-weight:700;font-size:17px;border-radius:999px;padding:10px 18px;box-shadow:0 4px 14px rgba(200,101,42,.35)}.vbtn:hover{background:#B35722}
+@media (max-width:420px){ .vbtn{font-size:15px;padding:8px 13px} }
 
 /* dva náhledy */
 .duo{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:28px}
@@ -212,7 +215,7 @@ footer a{font-weight:700}
     <span><b>Bonus pro tebe</b><br>Ikony ke stažení, přímý kontakt na nás a <b>dárky na Vánoce a Nový rok</b> pro ty, kdo bonus odemknou. Úplně dole na stránce →</span>
   </a>
 
-  <h2 id="video">Video návod</h2>
+  <div class="vhead"><h2 id="video">Video návod</h2><a class="vbtn" href="videa.html">▶ Ostatní videa</a></div>
   <p class="sub">Necelé tři minuty, které ukážou všechno podstatné – od polohy a mapy revírů přes šanci na záběr a Jakou nástrahu? po zápis úlovku.</p>
   <div class="video"><video src="navod-pstruh.mp4?v=2" poster="nahledy/video-poster.jpg?v=2" controls playsinline preload="metadata"></video></div>
   <p class="sub" style="text-align:center;margin-top:10px">Video je i na YouTube: <a href="https://youtube.com/shorts/8fyUu4LrdjU" target="_blank" rel="noopener">youtube.com/shorts/8fyUu4LrdjU</a> – můžeš ho sdílet kamarádům.</p>

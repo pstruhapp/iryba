@@ -3,6 +3,7 @@
 Úvodní web aplikací Pstruh a Kapr (GitHub Pages, repo `pstruhapp/iryba`, doména iryba.cz). Piš česky.
 
 - `index.html` – celý web: úvod, instalace na plochu, video návod (`navod-pstruh.mp4`, náhled `nahledy/video-poster.jpg`), přehled funkcí, podmínky užití, bonus.
+- `videa.html` – stránka „Ostatní videa“ (tlačítko vedle Video návod): nahoře nejnovější video, pod ním 14 krátkých videí Pstruh / Kapr z `propagace/videa/`, náhledy v `propagace/videa/nahledy/`. Nové video přidej sem i s náhledem.
 - `obchodni-podminky.html` – připravené obchodní podmínky pro placenou funkci. **Jsou skryté** (nikde na ně neodkazujeme), placení přes Stripe není aktivní. Znovu je připoj jen na pokyn majitele.
 - Majitel vystupuje anonymně jako „Tým Pstruh & Kapr“; nezveřejňuj jeho osobní e-mail ani DIČ.
 - Při nové funkci v aplikacích uprav i popis v sekci „Co všechno umí“; když se mění video, přidej k adrese verzi (`?v=N`), ať se nedrží stará.
