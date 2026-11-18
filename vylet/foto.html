@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Na výlet – fotky</title>
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="icon" href="icon-192.png">
+<style>
+:root{--bg:#F4F1E8;--card:#fff;--ink:#1E2A22;--mute:#5E6B62;--line:#DDD6C4;--acc:#2E7D4F}
+@media (prefers-color-scheme:dark){:root{--bg:#141A16;--card:#1D2520;--ink:#E8EDE9;--mute:#9AA79E;--line:#2F3A33;--acc:#4CAF78}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.4 system-ui,-apple-system,sans-serif}
+main{max-width:720px;margin:0 auto;padding:18px 16px 40px}
+h1{font-size:24px;margin:0}
+.lat{color:var(--mute);font-style:italic;margin:2px 0 14px}
+h2{font-size:18px;margin:22px 0 8px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.grid a{display:block;aspect-ratio:1;border-radius:12px;overflow:hidden;background:var(--line)}
+.grid img{width:100%;height:100%;object-fit:cover;display:block}
+.mute{color:var(--mute);font-size:14px}
+.back{display:inline-block;margin-top:22px;color:var(--acc);font-weight:700;text-decoration:none}
+#big{position:fixed;inset:0;background:rgba(0,0,0,.92);display:none;flex-direction:column;align-items:center;justify-content:center;padding:12px;z-index:9}
+#big img{max-width:100%;max-height:82vh;border-radius:8px}
+#big a{color:#ddd;font-size:13px;margin-top:10px}
+</style>
+</head>
+<body>
+<main>
+  <h1 id="nazev">Fotky</h1>
+  <p class="lat" id="lat"></p>
+  <h2 id="h1t">🌿 Jak vypadá</h2>
+  <div class="grid" id="g1"><p class="mute">Načítám fotky…</p></div>
+  <div id="kor" hidden>
+    <h2>🥕 Kořen / část pod zemí</h2>
+    <div class="grid" id="g2"><p class="mute">Načítám fotky…</p></div>
+  </div>
+  <p class="mute" style="margin-top:18px">Skutečné fotky z Wikimedia Commons. Autora a licenci uvidíš po klepnutí na fotku → „autor a licence“.</p>
+  <a class="back" href="javascript:history.length>1?history.back():window.close()">← Zpět</a>
+</main>
+<div id="big"><img alt=""><a target="_blank" rel="noopener">autor a licence (Wikimedia Commons)</a></div>
+<script>
+const q=new URLSearchParams(location.search);
+const lat=(q.get("lat")||"").trim(), cz=(q.get("cz")||"").trim(), koren=q.get("koren")==="1";
+document.getElementById("nazev").textContent=cz||lat||"Fotky";
+document.getElementById("lat").textContent=cz&&lat?lat:"";
+document.title="Fotky – "+(cz||lat);
+if(koren) document.getElementById("kor").hidden=false;
+
+async function hledej(text, n){
+  const u="https://commons.wikimedia.org/w/api.php?action=query&format=json&origin=*&generator=search&gsrnamespace=6&gsrlimit="+n+
+    "&gsrsearch="+encodeURIComponent(text+" filemime:jpeg")+"&prop=imageinfo&iiprop=url&iiurlwidth=640";
+  const j=await (await fetch(u)).json();
+  const pages=Object.values(j?.query?.pages||{}).sort((a,b)=>(a.index||0)-(b.index||0));
+  return pages.map(p=>({thumb:p.imageinfo?.[0]?.thumburl, full:p.imageinfo?.[0]?.thumburl?.replace(/\/\d+px-/,"/1280px-"), page:p.imageinfo?.[0]?.descriptionurl})).filter(x=>x.thumb);
+}
+function ukaz(el, fotky){
+  if(!fotky.length){ el.innerHTML='<p class="mute">Fotky se nepodařilo najít.</p>'; return; }
+  el.innerHTML="";
+  for(const f of fotky){
+    const a=document.createElement("a"); a.href=f.page; a.target="_blank"; a.rel="noopener";
+    const i=document.createElement("img"); i.src=f.thumb; i.loading="lazy"; i.alt="";
+    a.appendChild(i); el.appendChild(a);
+    a.onclick=e=>{ e.preventDefault(); const b=document.getElementById("big"); b.querySelector("img").src=f.thumb; b.querySelector("a").href=f.page; b.style.display="flex"; };
+  }
+}
+document.getElementById("big").onclick=e=>{ if(e.target.tagName!=="A") e.currentTarget.style.display="none"; };
+
+(async()=>{
+  const g1=document.getElementById("g1"), g2=document.getElementById("g2");
+  try{
+    let f=lat?await hledej('"'+lat+'"',10):[];
+    if(f.length<3 && cz) f=f.concat(await hledej(cz,10));
+    ukaz(g1,f.slice(0,10));
+  }catch(e){ g1.innerHTML='<p class="mute">Fotky se nepodařilo načíst (jsi online?).</p>'; }
+  if(koren) try{
+    const base=lat?'"'+lat+'"':cz;
+    let f=await hledej(base+" (root OR roots OR Wurzel OR radix OR tuber OR bulb OR rhizome OR kořen)",8);
+    ukaz(g2,f);
+  }catch(e){ g2.innerHTML='<p class="mute">Fotky se nepodařilo načíst.</p>'; }
+})();
+</script>
+</body>
+</html>
