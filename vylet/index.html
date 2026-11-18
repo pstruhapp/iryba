@@ -11,15 +11,46 @@
 <meta name="apple-mobile-web-app-title" content="Na výlet">
 <meta name="theme-color" content="#2E7D4F">
 <style>
-body{margin:0;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;background:#2E7D4F;color:#F4F1E8;font:17px/1.4 system-ui,-apple-system,sans-serif;text-align:center;padding:16px}
+body{margin:0;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;background:#2E7D4F;color:#F4F1E8;font:17px/1.4 system-ui,-apple-system,sans-serif;text-align:center;padding:16px;box-sizing:border-box}
 img{width:96px;height:96px;border-radius:22px}
-a{display:inline-block;background:#F4F1E8;color:#1F5E3A;font-weight:700;padding:14px 26px;border-radius:14px;text-decoration:none}
-p{max-width:320px;opacity:.85;font-size:14px}
+.info{background:rgba(0,0,0,.18);border-radius:16px;padding:12px 16px;max-width:340px;width:100%;box-sizing:border-box;font-size:16px}
+.info div{margin:2px 0}
+a{display:inline-block;background:#F4F1E8;color:#1F5E3A;font-weight:700;font-size:20px;padding:16px 30px;border-radius:16px;text-decoration:none}
+p{max-width:330px;opacity:.85;font-size:14px;margin:0}
 </style>
 </head>
 <body>
 <img src="icon-192.png" alt="">
+<div class="info"><div id="misto">📍 Zjišťuji polohu…</div><div id="pocasi">🌤️ …</div></div>
 <a id="go" href="https://claude.ai/artifact/6CPijs8JcD4xfFzgPqbHp9">Otevřít Na výlet</a>
-<p id="tip">Na plochu: Sdílet → Přidat na plochu. Otevře se jen tobě, po přihlášení do Claude.</p>
+<p id="tip">Místo a počasí se při otevření zkopírují. Pokud je chceš poslat e-mailem, v aplikaci otevři „Místo a počasí“ a klepni na Vložit.</p>
+<script>
+const WMO={0:"jasno",1:"skoro jasno",2:"polojasno",3:"zataženo",45:"mlha",48:"mlha s námrazou",51:"slabé mrholení",53:"mrholení",55:"silné mrholení",56:"mrznoucí mrholení",57:"mrznoucí mrholení",61:"slabý déšť",63:"déšť",65:"silný déšť",66:"mrznoucí déšť",67:"mrznoucí déšť",71:"slabé sněžení",73:"sněžení",75:"silné sněžení",77:"sněhová zrna",80:"přeháňky",81:"přeháňky",82:"silné přeháňky",85:"sněhové přeháňky",86:"silné sněhové přeháňky",95:"bouřka",96:"bouřka s kroupami",99:"bouřka s kroupami"};
+let misto="", pocasi="";
+const go=document.getElementById("go");
+function txt(){ return misto||pocasi ? `Místo: ${misto||"neuvedeno"} || Počasí: ${pocasi||"neuvedeno"}` : ""; }
+go.addEventListener("click",ev=>{
+  const t=txt(); if(!t) return;
+  ev.preventDefault();
+  const done=()=>location.href=go.href;
+  try{ navigator.clipboard.writeText(t).then(done,done); }catch(e){ done(); }
+});
+if(navigator.geolocation) navigator.geolocation.getCurrentPosition(async pos=>{
+  const lat=pos.coords.latitude, lon=pos.coords.longitude, gps=`GPS ${lat.toFixed(5)}, ${lon.toFixed(5)}`;
+  misto=gps; document.getElementById("misto").textContent="📍 "+gps;
+  const nazev=fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&zoom=14&accept-language=cs&lat=${lat}&lon=${lon}`).then(r=>r.json()).then(j=>{
+    const a=j.address||{}, obec=a.village||a.town||a.city||a.hamlet||a.municipality||a.suburb||"", okr=a.county||a.state_district||"";
+    const n=[obec,okr].filter(Boolean).join(", ");
+    if(n){ misto=`${n} (${gps})`; document.getElementById("misto").textContent="📍 "+n; }
+  }).catch(()=>{});
+  const wx=fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat.toFixed(3)}&longitude=${lon.toFixed(3)}&current=temperature_2m,weather_code,wind_speed_10m,relative_humidity_2m,precipitation&wind_speed_unit=ms&timezone=Europe%2FPrague`).then(r=>r.json()).then(j=>{
+    const c=j.current; if(!c) return;
+    pocasi=`${Math.round(c.temperature_2m)} °C, ${WMO[c.weather_code]||"—"}, vítr ${Math.round(c.wind_speed_10m)} m/s, vlhkost ${c.relative_humidity_2m} %`;
+    document.getElementById("pocasi").textContent="🌤️ "+pocasi;
+  }).catch(()=>{ document.getElementById("pocasi").textContent="🌤️ počasí se nepodařilo zjistit"; });
+  await Promise.all([nazev,wx]);
+},()=>{ document.getElementById("misto").textContent="📍 poloha nepovolena"; document.getElementById("pocasi").textContent="🌤️ —"; },{enableHighAccuracy:true,timeout:15000,maximumAge:60000});
+else document.getElementById("misto").textContent="📍 poloha není k dispozici";
+</script>
 </body>
 </html>
