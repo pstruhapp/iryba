@@ -21,14 +21,13 @@ p{max-width:330px;opacity:.85;font-size:14px;margin:0}
 </head>
 <body>
 <img src="icon-192.png" alt="">
-<div class="info"><div id="misto">📍 Zjišťuji polohu…</div><div id="pocasi">🌤️ …</div></div>
+<div class="info"><div id="misto">📍 Zjišťuji polohu…</div></div>
 <a id="go" href="https://claude.ai/artifact/6CPijs8JcD4xfFzgPqbHp9">Otevřít Na výlet</a>
-<p id="tip">Místo a počasí se při otevření zkopírují. Pokud je chceš poslat e-mailem, v aplikaci otevři „Místo a počasí“ a klepni na Vložit.</p>
+<p id="tip">Poloha se při otevření zkopíruje. Pokud ji chceš v aplikaci, otevři tam „Místo“ a klepni na Vložit polohu.</p>
 <script>
-const WMO={0:"jasno",1:"skoro jasno",2:"polojasno",3:"zataženo",45:"mlha",48:"mlha s námrazou",51:"slabé mrholení",53:"mrholení",55:"silné mrholení",56:"mrznoucí mrholení",57:"mrznoucí mrholení",61:"slabý déšť",63:"déšť",65:"silný déšť",66:"mrznoucí déšť",67:"mrznoucí déšť",71:"slabé sněžení",73:"sněžení",75:"silné sněžení",77:"sněhová zrna",80:"přeháňky",81:"přeháňky",82:"silné přeháňky",85:"sněhové přeháňky",86:"silné sněhové přeháňky",95:"bouřka",96:"bouřka s kroupami",99:"bouřka s kroupami"};
-let misto="", pocasi="";
+let misto="";
 const go=document.getElementById("go");
-function txt(){ return misto||pocasi ? `Místo: ${misto||"neuvedeno"} || Počasí: ${pocasi||"neuvedeno"}` : ""; }
+function txt(){ return misto ? `Poloha: ${misto}` : ""; }
 go.addEventListener("click",ev=>{
   const t=txt(); if(!t) return;
   ev.preventDefault();
@@ -43,13 +42,8 @@ if(navigator.geolocation) navigator.geolocation.getCurrentPosition(async pos=>{
     const n=[obec,okr].filter(Boolean).join(", ");
     if(n){ misto=`${n} (${gps})`; document.getElementById("misto").textContent="📍 "+n; }
   }).catch(()=>{});
-  const wx=fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat.toFixed(3)}&longitude=${lon.toFixed(3)}&current=temperature_2m,weather_code,wind_speed_10m,relative_humidity_2m,precipitation&wind_speed_unit=ms&timezone=Europe%2FPrague`).then(r=>r.json()).then(j=>{
-    const c=j.current; if(!c) return;
-    pocasi=`${Math.round(c.temperature_2m)} °C, ${WMO[c.weather_code]||"—"}, vítr ${Math.round(c.wind_speed_10m)} m/s, vlhkost ${c.relative_humidity_2m} %`;
-    document.getElementById("pocasi").textContent="🌤️ "+pocasi;
-  }).catch(()=>{ document.getElementById("pocasi").textContent="🌤️ počasí se nepodařilo zjistit"; });
-  await Promise.all([nazev,wx]);
-},()=>{ document.getElementById("misto").textContent="📍 poloha nepovolena"; document.getElementById("pocasi").textContent="🌤️ —"; },{enableHighAccuracy:true,timeout:15000,maximumAge:60000});
+  await nazev;
+},()=>{ document.getElementById("misto").textContent="📍 poloha nepovolena"; },{enableHighAccuracy:true,timeout:15000,maximumAge:60000});
 else document.getElementById("misto").textContent="📍 poloha není k dispozici";
 </script>
 </body>
