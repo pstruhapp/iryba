@@ -2,4 +2,5 @@ User-agent: *
 Allow: /
 Disallow: /obchodni-podminky.html
 Disallow: /propagace/
+Disallow: /vylet/
 Sitemap: https://iryba.cz/sitemap.xml
